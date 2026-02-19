@@ -1,15 +1,10 @@
 #include "SceneManager.h"
-#include "../"
+#include "../Utility/InputManager.h"
 #include "DxLib.h"
-#include "TitleScene.h"
-#include "GameMainScene.h"
-#include "ResultScene.h"
-#include "HelpScene.h"
-#include "RankingDispScene.h"
-#include "RankingInputScene.h"
-
-#include"Rouding.h"
-#include"NewGameScene.h"
+#include "../Scenes/GameMainScene/GameMainScene.h"
+#include "../Scenes/TitleScene/TitleScene.h"
+#include "../Scenes/Result/ResultScene.h"
+#include "../Scenes/HelpScene/HelpScene.h"
 
 SceneManager::SceneManager() : current_scene(nullptr)
 {
@@ -67,7 +62,7 @@ void SceneManager::Update()
 			start_time = now_time;
 
 			//入力機能：更新処理
-			InputControl::Update();
+			InputManager::GetInstance()->Update();
 
 			//更新処理（戻り値は次のシーン情報）
 			eSceneType next = current_scene->Update();
@@ -90,10 +85,12 @@ void SceneManager::Update()
 		}
 
 		//ESCAPEキーが押されたら、ゲームを終了する
-		if (CheckHitKey(KEY_INPUT_ESCAPE) || InputControl::GetButtonUp(XINPUT_BUTTON_BACK))
+		if (CheckHitKey(KEY_INPUT_ESCAPE) ||
+			InputManager::GetInstance()->GetButtonUp(XINPUT_BUTTON_BACK))
 		{
 			break;
 		}
+
 	}
 }
 
@@ -158,28 +155,16 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 	switch (scene_type)
 	{
 	case eSceneType::E_TITLE:
-		return new TitleScene;
+		//return new TitleScene;
 
 	case eSceneType::E_MAIN:
-		return new GameMainScene;
-
-	case eSceneType::E_NGS:
-		return new NewGameScene;
-
-	case eSceneType::E_RUD:
-		return new Rouding;
+		//return new GameMainScene;
 
 	case eSceneType::E_RESULT:
-		return new ResultScene;
+		// new ResultScene;
 
 	case eSceneType::E_HELP:
-		return new HelpScene;
-
-	case eSceneType::E_RANKING_DISP:
-		return new RankingDispScene;
-
-	case eSceneType::E_RANKING_INPUT:
-		return new RankingInputScene;
+		//return new HelpScene;
 
 	default:
 		return nullptr;
