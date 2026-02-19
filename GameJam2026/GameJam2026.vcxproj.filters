@@ -117,4 +117,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Image\InGame.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Image\Question1.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Image\Question2.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Image\Title.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

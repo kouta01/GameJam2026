@@ -1,29 +1,112 @@
 #include "TitleScene.h"
+#include "../../Utility/InputManager.h"
 #include "DxLib.h"
 
-int title_image;
-int choice_flag;
-
-void TitleSceneInit(void)
+TitleScene::TitleScene() : title_image(NULL), menu_image(NULL),
+titlebgm(NULL), decisionbgm(NULL),menu_cursor(0), choice_flag(0), selectbgm(NULL)
 {
-    choice_flag = FALSE;
-    title_image = LoadGraph("Resource/image/Title.png");
+
 }
 
-void TitleSceneUpdate(void)
+TitleScene::~TitleScene()
 {
-    if (CheckHitKey(KEY_INPUT_RETURN))
-    {
-        choice_flag = TRUE;  // 次のシーンへ
-    }
+
 }
 
-void TitleSceneDraw(void)
+//初期化処理
+void TitleScene::Initialize()
 {
-    DrawGraph(0, 0, title_image, TRUE);
+	//画像読み込み
+
+	title_image = LoadGraph("Resouce/ImageTitle.png");
+	//menu_image = LoadGraph("");
+	//cursor_image=LoadGraph("");
+
+	//BGM.SEの読み込み
+
+	//titlebgm = LoadSoundMem("");
+
+	//エラーチェック
+	if (title_image == -1)
+	{
+		throw("Resouce/ImageTitle.pngがありません。\n");
+	}
 }
 
-void TitleSceneEnd(void)
+eSceneType TitleScene::Update()
 {
-    DeleteGraph(title_image);
+	//BGMの再生
+
+
+	//ボタン決定->Aボタン場合
+	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_A))
+	{
+		choice_flag = 0;
+
+		//SEがながれてないとき再生
+
+	}
+
+	//ボタン決定→Bボタン場合
+	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_B))
+	{
+		choice_flag = 1;
+
+		//SEが流れていないとき再生
+
+	}
+
+	//ボタン決定→startボタン場合
+	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_START))
+	{
+		choice_flag = 2;
+	}
+
+	//決定した画面に遷移する
+	switch (choice_flag)
+	{
+		case 0:
+			return eSceneType::E_MAIN;
+		case 1:
+			return eSceneType::E_HELP;
+		default:
+			return eSceneType::E_END;
+	}
+	//現在のシーンを返す
+	return GetNowScene();
+}
+
+//描画処理
+void TitleScene::Draw()const
+{
+	//タイトル画像の描画
+	DrawGraph(0, 0, title_image, TRUE);
+
+	//メニュー画像の描画
+	DrawGraph(120, 200, menu_image, TRUE);
+
+	//操作ログ
+	SetFontSize(30);
+	DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで",0x000000);
+	//素材ログ
+	SetFontSize(20);
+	//DrawString()
+
+	//タイトルネーム
+	SetFontSize(100);
+	DrawString(150, 20, "Quiz", 0x000000);
+}
+
+//終了時処理
+void TitleScene::Finalize() 
+{
+	//読み込んだ画像の削除
+	DeleteGraph(title_image);
+	DeleteGraph(menu_image);
+	DeleteGraph(titlebgm);
+}
+
+eSceneType TitleScene::GetNowScene() const
+{
+	return eSceneType::E_TITLE;
 }

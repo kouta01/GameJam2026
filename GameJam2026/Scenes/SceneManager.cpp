@@ -19,13 +19,20 @@ SceneManager::~SceneManager()
 void SceneManager::Initialize()
 {
 	//ウィンドウのタイトルを設定
-	SetMainWindowText("爆 爆");
+	SetMainWindowText("quiz");
 
 	//ウィンドウモードで起動
 	if (ChangeWindowMode(TRUE) != DX_CHANGESCREEN_OK)
 	{
 		throw("ウィンドウモードで起動できませんでした\n");
 	}
+
+	// 解像度指定（例：1280×720）
+	if (SetGraphMode(1280, 720, 32) == -1)
+	{
+		throw("解像度の設定に失敗しました\n");
+	}
+
 
 	//DXライブラリの初期化
 	if (DxLib_Init() == -1)

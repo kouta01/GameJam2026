@@ -167,6 +167,12 @@
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\Vector2D.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Image\InGame.png" />
+    <Image Include="Resource\Image\Question1.png" />
+    <Image Include="Resource\Image\Question2.png" />
+    <Image Include="Resource\Image\Title.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
