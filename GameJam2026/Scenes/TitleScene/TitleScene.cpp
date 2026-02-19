@@ -1,35 +1,29 @@
 #include "TitleScene.h"
 #include "DxLib.h"
 
-int x;
-int y;
-
 int title_image;
-//int cursor_move_title;
-//int title_buckground;
-int help_image;
-int end_image;
-int start_sound_title;
-//int choice_flag;//プレイ選択画面移行
-//int cursor_move_title;
-int setumei;
+int choice_flag;
 
 void TitleSceneInit(void)
 {
-	x = 400;
-	y = 325;
-	//choice_flag = FALSE;
+    choice_flag = FALSE;
+    title_image = LoadGraph("Resource/image/Title.png");
+}
 
-	//必要な画像の読み込み
-	title_image = 
-	help_image =
-	end_image =
-	setumei =
+void TitleSceneUpdate(void)
+{
+    if (CheckHitKey(KEY_INPUT_RETURN))
+    {
+        choice_flag = TRUE;  // 次のシーンへ
+    }
+}
 
+void TitleSceneDraw(void)
+{
+    DrawGraph(0, 0, title_image, TRUE);
+}
 
-	//必要な音源
-    //cursor_move_title = LoadSoundMem
-	start_sound_title = LoadSoundMem
-
-	ChangeVolumeSoundMem(180, start_sound_title);
+void TitleSceneEnd(void)
+{
+    DeleteGraph(title_image);
 }

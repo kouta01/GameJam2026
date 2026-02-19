@@ -2,5 +2,6 @@
 
 
 void TitleSceneInit(void);
-//eSceneType TitleSceneUpdate(void);
-//void TitleSceneDraw(void);
+void TitleSceneUpdate(void);
+void TitleSceneDraw(void);
+void TitleSceneEnd(void);

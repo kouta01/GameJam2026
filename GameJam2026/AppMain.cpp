@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "Scenes/TitleScene/TitleScene.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE hPrevInstance, _In_
 	LPSTR lpCmdine, _In_ int nShowCmd)
@@ -13,6 +14,14 @@ int WINAPI WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE hPrevInstance, _
 		return -1;
 	}
 
+	TitleSceneInit();
+
+	while (ProcessMessage() == 0)
+	{
+		TitleSceneUpdate();
+		TitleSceneDraw();
+		ScreenFlip();
+	}
 	//“ü—Í‘Ò‹@
 	WaitKey();
 
