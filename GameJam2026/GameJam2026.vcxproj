@@ -133,7 +133,10 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Objects\GameObjectBase.cpp" />
+    <ClCompile Include="Scenes\GameMainScene\GameMainScene.cpp" />
+    <ClCompile Include="Scenes\HelpScene\HelpScene.cpp" />
     <ClCompile Include="Scenes\InGameScene\InGameScene.cpp" />
+    <ClCompile Include="Scenes\Result\ResultScene.cpp" />
     <ClCompile Include="Scenes\TitleScene\SceneManager.cpp" />
     <ClCompile Include="Scenes\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Scenes\Utility\InputManager.cpp" />
@@ -144,7 +147,10 @@
   <ItemGroup>
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\GameObjectBase.h" />
+    <ClInclude Include="Scenes\GameMainScene\GameMainScene.h" />
+    <ClInclude Include="Scenes\HelpScene\HelpScene.h" />
     <ClInclude Include="Scenes\InGameScene\InGameScene.h" />
+    <ClInclude Include="Scenes\Result\ResultScene.h" />
     <ClInclude Include="Scenes\TitleScene\SceneBase.h" />
     <ClInclude Include="Scenes\TitleScene\SceneManager.h" />
     <ClInclude Include="Scenes\TitleScene\TitleScene.h" />
