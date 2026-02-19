@@ -18,7 +18,7 @@ void TitleScene::Initialize()
 {
 	//画像読み込み
 
-	title_image = LoadGraph("Resouce/ImageTitle.png");
+	title_image = LoadGraph("Resource/Image/Title.png");
 	//menu_image = LoadGraph("");
 	//cursor_image=LoadGraph("");
 
@@ -29,7 +29,7 @@ void TitleScene::Initialize()
 	//エラーチェック
 	if (title_image == -1)
 	{
-		throw("Resouce/ImageTitle.pngがありません。\n");
+		throw("Resource/ImageTitle.pngがありません。\n");
 	}
 }
 
@@ -41,7 +41,8 @@ eSceneType TitleScene::Update()
 	//ボタン決定->Aボタン場合
 	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_A))
 	{
-		choice_flag = 0;
+		return eSceneType::E_MAIN;
+		/*choice_flag = 0;*/
 
 		//SEがながれてないとき再生
 
@@ -50,7 +51,8 @@ eSceneType TitleScene::Update()
 	//ボタン決定→Bボタン場合
 	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_B))
 	{
-		choice_flag = 1;
+		return eSceneType::E_HELP;
+		/*choice_flag = 1;*/
 
 		//SEが流れていないとき再生
 
@@ -59,19 +61,20 @@ eSceneType TitleScene::Update()
 	//ボタン決定→startボタン場合
 	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_START))
 	{
-		choice_flag = 2;
+		return eSceneType::E_END;
+		/*choice_flag = 2;*/
 	}
 
 	//決定した画面に遷移する
-	switch (choice_flag)
-	{
-		case 0:
-			return eSceneType::E_MAIN;
-		case 1:
-			return eSceneType::E_HELP;
-		default:
-			return eSceneType::E_END;
-	}
+	//switch (choice_flag)
+	//{
+	//	case 0:
+	//		return eSceneType::E_MAIN;
+	//	case 1:
+	//		return eSceneType::E_HELP;
+	//	default:
+	//		return eSceneType::E_END;
+	//}
 	//現在のシーンを返す
 	return GetNowScene();
 }

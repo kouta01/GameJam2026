@@ -133,7 +133,7 @@ void SceneManager::Draw() const
 void SceneManager::ChangeScene(eSceneType scene_type)
 {
 	//シーンを生成する（SceneBaseが継承されているか？）
-	SceneBase* new_scene = dynamic_cast<SceneBase*>(CreateScene(scene_type));
+	SceneBase* new_scene = /*dynamic_cast<SceneBase*>(*/CreateScene(scene_type)/*)*/;
 
 	//エラーチェック
 	if (new_scene == nullptr)
@@ -162,16 +162,18 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 	switch (scene_type)
 	{
 	case eSceneType::E_TITLE:
-		//return new TitleScene;
+		return new TitleScene;
+		break;
 
 	case eSceneType::E_MAIN:
-		//return new GameMainScene;
+		return new GameMainScene;
+		break;
 
-	case eSceneType::E_RESULT:
-		// new ResultScene;
+	//case eSceneType::E_RESULT:
+	//	 return new ResultScene;
 
-	case eSceneType::E_HELP:
-		//return new HelpScene;
+	//case eSceneType::E_HELP:
+	//	return new HelpScene;
 
 	default:
 		return nullptr;

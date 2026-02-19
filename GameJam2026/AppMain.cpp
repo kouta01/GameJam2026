@@ -1,5 +1,5 @@
 #include "DxLib.h"
-//#include "Scenes/TitleScene/TitleScene.h"
+#include "Scenes/TitleScene/TitleScene.h"
 #include "Scenes/SceneManager.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE hPrevInstance, _In_
