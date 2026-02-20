@@ -2,7 +2,7 @@
 
 Player::Player()
     : totalCorrect_(0),
-    totalScore_(0)
+      totalScore_(0)
 {
 }
 
