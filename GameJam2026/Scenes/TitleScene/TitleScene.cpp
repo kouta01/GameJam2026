@@ -68,7 +68,7 @@ eSceneType TitleScene::Update()
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
 
-		return eSceneType::E_HELP;
+		return eSceneType::E_END;
 	}
 
 	//ボタン決定→startボタン場合
@@ -77,6 +77,12 @@ eSceneType TitleScene::Update()
 		return eSceneType::E_END;
 		/*choice_flag = 2;*/
 	}
+
+	if (InputManager::GetInstance()->GetButtonDown(PAD_X))
+	{
+		return eSceneType::E_HELP;
+	}
+
 
 	//決定した画面に遷移する
 	//switch (choice_flag)
