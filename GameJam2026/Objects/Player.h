@@ -1,15 +1,14 @@
 #pragma once
-#include "DxLib.h"
 
 class Player
 {
 public:
     Player();
 
-    void AddResult(int correct, int score);
-    void Reset();
+    void AddCorrent();      //‚P–â³‰ğ
+    void AddScore(int score);   //³“š”
 
-    void Draw(int x, int y) const;
+    void Reset();
 
     int GetTotalCorrect() const;
     int GetTotalScore() const;

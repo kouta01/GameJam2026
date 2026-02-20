@@ -1,4 +1,7 @@
 #include "GameMainScene.h"
+#include "../../Objects/Player.h"
+//#include "../../Objects/Quiz.h"
+//#include "../../Objects/View/questView.h"
 #include "../../Utility/InputManager.h"
 #include<DxLib.h>
 
