@@ -23,7 +23,7 @@ GameMainScene::~GameMainScene()
 }
 
 void GameMainScene::Initialize()
-{
+{	
 	//背景画像
 	GameMainBack = LoadGraph("Resource/Image/InGame.png");
 
@@ -92,11 +92,22 @@ void GameMainScene::Initialize()
 	correctAnswers.push_back(1);  //Q8の正解はB
 	correctAnswers.push_back(1);  //Q9の正解はB
 	correctAnswers.push_back(0);  //Q10の正解はA
+
+	timer = 60 * 60; //60秒
+
+	/*timerFont = CreateFontToHandle("");*/
 }
 
 eSceneType GameMainScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
+
+	timer--;
+	if (timer <= 0)
+	{
+		//時間切れならリザルトへ
+		return eSceneType::E_RESULT;
+	}
 
 	//結果表示中ならタイマーだけ進める
 	if (showResult)
@@ -180,7 +191,11 @@ void GameMainScene::Draw() const
 	//背景画像
 	DrawGraph(0, 0, GameMainBack, TRUE);
 
-	if (currentIndex >= questionImages.size()) return;
+	//タイマーの表示
+	int seconds = timer / 60;
+	DrawFormatString(525, 0, GetColor(255, 0, 0), "残り時間: %d 秒", seconds);
+
+	/*if (currentIndex >= questionImages.size()) return;*/
 		//問題画像
 		DrawGraph(525, 68, questionImages[currentIndex], TRUE);
 
