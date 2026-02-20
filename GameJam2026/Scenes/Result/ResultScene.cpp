@@ -44,16 +44,18 @@ void ResultScene::Initialize()
 
 eSceneType ResultScene::Update()
 {
+    // InputManagerのインスタンスを取得
     InputManager* input = InputManager::GetInstance();
 
+    // Bボタンが押された瞬間を検出
     if (input->GetButtonDown(PAD_B))
     {
-        PlaySoundMem(se, DX_PLAYTYPE_BACK);
-        StopSoundMem(bgm);
+        // タイトルシーンへ遷移する
         return eSceneType::E_TITLE;
     }
 
-
+    // 何も押されていない場合は
+    // 現在のResultシーンを維持する
     return GetNowScene();
 }
 
