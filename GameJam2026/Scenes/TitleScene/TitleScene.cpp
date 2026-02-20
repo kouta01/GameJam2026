@@ -19,17 +19,22 @@ void TitleScene::Initialize()
 	//画像読み込み
 
 	title_image = LoadGraph("Resource/Image/Title.png");
+	
 	//menu_image = LoadGraph("");
 	//cursor_image=LoadGraph("");
 
 	//BGM.SEの読み込み
-
+	selectbgm = LoadSoundMem("Resource/Sounds/maou_se_system27.mp3");
 	//titlebgm = LoadSoundMem("");
 
 	//エラーチェック
 	if (title_image == -1)
 	{
 		throw("Resource/ImageTitle.pngがありません。\n");
+	}
+	if (selectbgm == -1)
+	{
+		throw("Resource/Sounds/maou_se_system27.mp3がありません\n");
 	}
 }
 
@@ -39,23 +44,31 @@ eSceneType TitleScene::Update()
 
 
 	//ボタン決定->Aボタン場合
-	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_A))
+	if (InputManager::GetInstance()->GetButtonDown(PAD_A))
 	{
-		return eSceneType::E_MAIN;
 		/*choice_flag = 0;*/
 
 		//SEがながれてないとき再生
+		if (CheckSoundMem(selectbgm) != TRUE)
+		{
+			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+		}
 
+		return eSceneType::E_MAIN;
 	}
 
 	//ボタン決定→Bボタン場合
-	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_B))
+	if (InputManager::GetInstance()->GetButtonDown(PAD_B))
 	{
-		return eSceneType::E_HELP;
 		/*choice_flag = 1;*/
 
 		//SEが流れていないとき再生
+		if (CheckSoundMem(selectbgm) != TRUE)
+		{
+			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+		}
 
+		return eSceneType::E_HELP;
 	}
 
 	//ボタン決定→startボタン場合
