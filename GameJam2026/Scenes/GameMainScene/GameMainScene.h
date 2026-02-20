@@ -10,6 +10,7 @@ private:
 	int currentIndex;                //現在の問題番号
 	int selectIndex;                 //プレイヤーが選んだ選択肢(0=A, 1=B)
 	int correctCount;                //正解数
+	int score = 0;                   //スコア
 	int AnswerImage;                 //正解画像
 	int IncorrectImage;              //不正解画像
 	bool showResult = false;         //結果表示中か?
@@ -45,6 +46,8 @@ private:
 	virtual void Finalize() override;
 
 public:
+	int GetCorrectCount() const { return correctCount; }
+	int GetScore() const { return score; }
 	virtual eSceneType GetNowScene() const override
 	{
 		return eSceneType::E_MAIN;

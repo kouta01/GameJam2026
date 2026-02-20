@@ -133,12 +133,24 @@ void SceneManager::Draw() const
 void SceneManager::ChangeScene(eSceneType scene_type)
 {
 	//シーンを生成する（SceneBaseが継承されているか？）
-	SceneBase* new_scene = /*dynamic_cast<SceneBase*>(*/CreateScene(scene_type)/*)*/;
+	SceneBase* new_scene = CreateScene(scene_type);
 
 	//エラーチェック
 	if (new_scene == nullptr)
 	{
 		throw("シーンが生成できませんでした。\n");
+	}
+
+	//前のシーンがGameMainSceneで次がResultSceneなら値を渡す
+	if (scene_type == eSceneType::E_RESULT)
+	{
+		GameMainScene* mainScene = dynamic_cast<GameMainScene*>(current_scene);
+		ResultScene* resultScene = dynamic_cast<ResultScene*>(new_scene);
+
+		if (mainScene && resultScene)
+		{
+			resultScene->SetResult(mainScene->GetCorrectCount(), mainScene->GetScore());
+		}
 	}
 
 	//前回シーンの終了時処理を行う

@@ -129,6 +129,7 @@ eSceneType GameMainScene::Update()
 		if (correctAnswers[currentIndex] == 0)
 		{
 			correctCount++;
+			score += 1;
 			resultImageToShow = AnswerImage;
 		}
 		else
@@ -152,6 +153,7 @@ eSceneType GameMainScene::Update()
 		if (correctAnswers[currentIndex] == 1)
 		{
 			correctCount++;
+			score += 1;
 			resultImageToShow = AnswerImage;
 		}
 		else
