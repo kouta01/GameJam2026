@@ -1,11 +1,20 @@
 #pragma once
 
 #include "../SceneBase.h"
+#include <vector>
 
 class GameMainScene : public SceneBase
 {
 private:
-	int GameMainBack;
+	int GameMainBack;                //背景画像
+	int currentIndex;                //現在の問題番号
+	int selectIndex;                 //プレイヤーが選んだ選択肢(0=A, 1=B)
+	int correctCount;                //正解数
+	std::vector<int> questionImages; //問題画像
+	std::vector<int> questImages;    //問題文画像
+	std::vector<int> choiceAImages;  //選択肢画像(A)
+	std::vector<int> choiceBImages;  //選択肢画像(B)
+	std::vector<int> correctAnswers; //正解(0=A, 1=B)
 
 public:
 	GameMainScene();

@@ -30,7 +30,7 @@ void ResultScene::Initialize(int score, int correct)
     PlaySoundMem(bgm_, DX_PLAYTYPE_LOOP);
 }
 
-void ResultScene::Update()
+eSceneType ResultScene::Update()
 {
     // Bボタンが押されたらタイトルへ戻る処理
     if (CheckHitKey(KEY_INPUT_B))
@@ -40,6 +40,8 @@ void ResultScene::Update()
 
         // SceneManagerでタイトルシーンへ切り替える処理をここに書く
     }
+
+    return GetNowScene();
 }
 
 void ResultScene::Draw() const
