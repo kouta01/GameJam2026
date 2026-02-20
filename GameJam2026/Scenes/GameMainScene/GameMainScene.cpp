@@ -83,6 +83,9 @@ void GameMainScene::Initialize()
 	correctAnswers.push_back(1);  //Q8‚Ì³‰ð‚ÍB
 	correctAnswers.push_back(1);  //Q9‚Ì³‰ð‚ÍB
 	correctAnswers.push_back(0);  //Q10‚Ì³‰ð‚ÍA
+
+	currentIndex = 0;
+	correctCount = 0;
 }
 
 eSceneType GameMainScene::Update()
@@ -130,6 +133,9 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
+	if (currentIndex >= questionImages.size())
+		return;
+
 	//”wŒi‰æ‘œ
 	DrawGraph(0, 0, GameMainBack, TRUE);
 

@@ -15,6 +15,7 @@ private:
 	std::vector<int> choiceAImages;  //選択肢画像(A)
 	std::vector<int> choiceBImages;  //選択肢画像(B)
 	std::vector<int> correctAnswers; //正解(0=A, 1=B)
+	int GetCorrectCount() const { return correctCount; }	//リザルト画面に渡す
 
 public:
 	GameMainScene();
