@@ -8,7 +8,7 @@ eSceneType HelpScene::Update()
     InputManager* input = InputManager::GetInstance();
 
     // Bボタンが押されたらタイトルへ戻る
-    if (input->GetButtonDown(PAD_B))
+    if (input->GetButtonDown(PAD_A))
     {
         return eSceneType::E_TITLE;
     }
@@ -23,7 +23,9 @@ void HelpScene::Draw() const
 
     // ヘルプ画面の説明テキストを表示
     DrawString(200, 150, "=== HELP ===", 0xffffff);
-    DrawString(200, 200, "Aボタン : ゲーム開始", 0xffffff);
-    DrawString(200, 240, "Bボタン : 戻る", 0xffffff);
-    DrawString(200, 280, "Xボタン : ヘルプ表示", 0xffffff);
+    DrawString(200, 200, "AボタンでTITLE", 0xffffff);
+    DrawString(200, 260, "ゲーム説明", 0xffffff);
+    DrawString(200, 300, "このゲームは2択クイズです。", 0xffffff);
+    DrawString(200, 340, "正しいと思うボタンを押してください。", 0xffffff);
+    DrawString(200, 380, "全10問の正解数で結果が決まります。", 0xffffff);
 }
