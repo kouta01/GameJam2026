@@ -56,10 +56,10 @@ void ResultScene::Draw() const
     DrawString(200, 100, "RESULT", 0xffffff);
 
     // 正答数とスコアの表示
-    DrawFormatString(200, 200, 0xffffff,
+    DrawFormatString(200, 220, 0xffffff,
         "正答数 : %d", correct_);
 
-    DrawFormatString(200, 230, 0xffffff,
+    DrawFormatString(200, 320, 0xffffff,
         "スコア : %d", score_);
 }
 

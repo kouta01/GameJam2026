@@ -171,6 +171,10 @@ eSceneType GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
+	// currentIndex ‚ª–â‘è”‚ð’´‚¦‚½‚ç•`‰æ‚µ‚È‚¢
+	if (currentIndex >= questionImages.size())
+		return;
+
 	//”wŒi‰æ‘œ
 	DrawGraph(0, 0, GameMainBack, TRUE);
 
