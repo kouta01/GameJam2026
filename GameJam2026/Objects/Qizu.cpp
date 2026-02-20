@@ -4,40 +4,40 @@ Qizu::Qizu()
 {
     Initialize();
 }
-
+//初期化処理
 void Qizu::Initialize()
 {
     current = 0;
 
-    // 正解設定（例）
-    answer[0] = 0;
-    answer[1] = 1;
-    answer[2] = 0;
-    answer[3] = 0;
-    answer[4] = 1;
-    answer[5] = 0;
-    answer[6] = 1;
-    answer[7] = 1;
-    answer[8] = 1;
-    answer[9] = 0;
+    // 正解設定
+    int temp[QUESTION_MAX] = { 0,1,0,0,1,0,1,1,1,0 };
+
+    for (int i = 0; i < QUESTION_MAX; i++)
+    {
+        answer[i] = temp[i];
+    }
 
 }
 
+//解答チェック処理
 bool Qizu::CheckAnswer(int selectIndex) const
 {
     return selectIndex == answer[current];
 }
 
+//次の問題へ
 void Qizu::NextQuestion()
 {
     current++;
 }
 
+//終了時処理
 bool Qizu::IsFinished() const
 {
     return current >= QUESTION_MAX;
 }
 
+//現在の問題を確認
 int Qizu::GetCurrentQuestion() const
 {
     return current;

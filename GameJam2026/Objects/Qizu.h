@@ -1,14 +1,14 @@
 #pragma once
 //#include "DxLib.h"
 
-#define QUESTION_MAX 2
+#define QUESTION_MAX 10
 
 class Qizu
 {
 public:
     Qizu();
 
-    void Initialize();
+    void Initialize();      //‰Šú‰»ˆ—
 
     bool CheckAnswer(int selectIndex) const; // ³Œë”»’è
     void NextQuestion();                     // Ÿ‚Ì–â‘è‚Ö
