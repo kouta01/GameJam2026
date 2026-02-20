@@ -140,7 +140,7 @@ eSceneType GameMainScene::Update()
 		if (correctAnswers[currentIndex] == 0)
 		{
 			correctCount++;
-			score += 1;
+			score += 2;
 			resultImageToShow = AnswerImage;
 		}
 		else
@@ -164,7 +164,7 @@ eSceneType GameMainScene::Update()
 		if (correctAnswers[currentIndex] == 1)
 		{
 			correctCount++;
-			score += 1;
+			score += 2;
 			resultImageToShow = AnswerImage;
 		}
 		else
@@ -193,7 +193,7 @@ void GameMainScene::Draw() const
 
 	//タイマーの表示
 	int seconds = timer / 60;
-	DrawFormatString(525, 0, GetColor(255, 0, 0), "残り時間: %d 秒", seconds);
+	DrawFormatString(1020, 7, GetColor(255, 0, 0), "%d 秒", seconds);
 
 	/*if (currentIndex >= questionImages.size()) return;*/
 		//問題画像
