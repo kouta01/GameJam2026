@@ -3,7 +3,7 @@
 #include "Vector2D.h"
 #define PAD_A       (0)   // Aボタン
 #define PAD_B		(1) // Bボタン
-#define PAD_X		(2) // Bボタン
+#define PAD_X		(2) // Xボタン
 
 #define D_PAD_UP    (12)
 #define D_PAD_DOWN  (13)

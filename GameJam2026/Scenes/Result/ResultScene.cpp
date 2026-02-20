@@ -1,4 +1,5 @@
 #include "ResultScene.h"
+#include "../../Utility/InputManager.h"   
 
 ResultScene::ResultScene()
     : background(-1)
@@ -43,14 +44,15 @@ void ResultScene::Initialize()
 
 eSceneType ResultScene::Update()
 {
-    // Bボタンが押されたらタイトルへ戻る処理
-    if (CheckHitKey(KEY_INPUT_B))
-    {
-        PlaySoundMem(se, DX_PLAYTYPE_BACK); // 決定音
-        StopSoundMem(bgm);                  // BGM停止
+    InputManager* input = InputManager::GetInstance();
 
-        // SceneManagerでタイトルシーンへ切り替える処理をここに書く
+    if (input->GetButtonDown(PAD_B))
+    {
+        PlaySoundMem(se, DX_PLAYTYPE_BACK);
+        StopSoundMem(bgm);
+        return eSceneType::E_TITLE;
     }
+
 
     return GetNowScene();
 }
