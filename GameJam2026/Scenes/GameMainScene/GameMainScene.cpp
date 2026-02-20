@@ -103,8 +103,8 @@ eSceneType GameMainScene::Update()
 	{
 		resultTimer++;
 
-		//30フレーム(0.5秒)表示したら次へ
-		if (resultTimer > 30)
+		//60フレーム(0.3秒)表示したら次へ
+		if (resultTimer > 18)
 		{
 			showResult = false;
 			resultTimer = 0;
