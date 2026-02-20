@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Objects\GameObjectBase.cpp" />
+    <ClCompile Include="Objects\Gamequiz.cpp" />
     <ClCompile Include="Scenes\GameMainScene\GameMainScene.cpp" />
     <ClCompile Include="Scenes\HelpScene\HelpScene.cpp" />
     <ClCompile Include="Scenes\InGameScene\InGameScene.cpp" />
@@ -147,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\GameObjectBase.h" />
+    <ClInclude Include="Objects\Gamequiz.h" />
     <ClInclude Include="Scenes\GameMainScene\GameMainScene.h" />
     <ClInclude Include="Scenes\HelpScene\HelpScene.h" />
     <ClInclude Include="Scenes\InGameScene\InGameScene.h" />
