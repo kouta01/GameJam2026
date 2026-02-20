@@ -63,7 +63,7 @@ void ResultScene::Draw() const
     DrawFormatString(180, 180, 0xffffff, "正当数 : %d", correct);
 
     //スコアの表示
-    DrawFormatString(180, 230, 0xffffff, "スコア : %d", score);
+    DrawFormatString(180, 350, 0xffffff, "スコア : %d", score);
 }
 
 void ResultScene::Finalize()
