@@ -1,5 +1,5 @@
 #pragma once
-#include "DxLib.h"
+//#include "DxLib.h"
 
 #define QUESTION_MAX 2
 
@@ -7,18 +7,16 @@ class Qizu
 {
 public:
     Qizu();
-    void Load();
-    void Update();
-    void Draw();
+
+    void Initialize();
+
+    bool CheckAnswer(int selectIndex) const; // 正誤判定
+    void NextQuestion();                     // 次の問題へ
+    bool IsFinished() const;                 // 全問題終了？
+
+    int GetCurrentQuestion() const;          // 今何問目？
 
 private:
-    int questionImg[QUESTION_MAX];
-    int hintImg[QUESTION_MAX];
-    int choiceImg[QUESTION_MAX][2];
-    int answer[QUESTION_MAX];
-
-    int current;        //何問か
-    int selectIndex;    //選んでいる選択肢
-    bool answered;      //答えたかどうか
-
+    int answer[QUESTION_MAX]; // 正解番号
+    int current;              // 現在の問題番号
 };
