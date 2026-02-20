@@ -38,6 +38,7 @@ void InputManager::Update()
 
 	now_button[PAD_A] = (state & PAD_INPUT_1) != 0;
 	now_button[PAD_B] = (state & PAD_INPUT_2) != 0;
+	now_button[PAD_X] = (state & PAD_INPUT_3) != 0;
 
 
 	// トリガー/スティック

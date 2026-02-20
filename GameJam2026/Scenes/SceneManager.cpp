@@ -173,8 +173,8 @@ SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 		 return new ResultScene;
 		 break;
 
-	//case eSceneType::E_HELP:
-	//	return new HelpScene;
+	case eSceneType::E_HELP:
+		return new HelpScene;
 
 	default:
 		return nullptr;
