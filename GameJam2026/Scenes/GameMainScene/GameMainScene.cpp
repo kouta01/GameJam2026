@@ -10,6 +10,9 @@ GameMainScene::GameMainScene()
 	,currentIndex(0)
 	,selectIndex(0)
 	,correctCount(0)
+	,AnswerImage(0)
+	,IncorrectImage(0)
+	,resultTimer(0)
 {
 
 }
@@ -23,6 +26,12 @@ void GameMainScene::Initialize()
 {
 	//背景画像
 	GameMainBack = LoadGraph("Resource/Image/InGame.png");
+
+	//正解画像
+	AnswerImage = LoadGraph("Resource/Image/Answer.png");
+
+	//不正解画像
+	IncorrectImage = LoadGraph("Resource/Image/Incorrect.png");
 
 	//問題画像
 	questionImages.push_back(LoadGraph("Resource/Image/Question1.png"));
@@ -89,6 +98,28 @@ eSceneType GameMainScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
 
+	//結果表示中ならタイマーだけ進める
+	if (showResult)
+	{
+		resultTimer++;
+
+		//30フレーム(0.5秒)表示したら次へ
+		if (resultTimer > 30)
+		{
+			showResult = false;
+			resultTimer = 0;
+
+			currentIndex++;
+			//全問終了
+			if (currentIndex >= questionImages.size())
+			{
+				return eSceneType::E_RESULT;
+			}
+		}
+
+		return GetNowScene();
+	}
+
 	//Aボタンなら選択肢Aを選ぶ
 	if (input->GetButtonDown(PAD_A))
 	{
@@ -98,10 +129,18 @@ eSceneType GameMainScene::Update()
 		if (correctAnswers[currentIndex] == 0)
 		{
 			correctCount++;
+			resultImageToShow = AnswerImage;
+		}
+		else
+		{
+			resultImageToShow = IncorrectImage;
 		}
 
-		//正解でも不正解でも次の問題へ
-		currentIndex++;
+		//Aの位置に結果画像を表示
+		resultX = choiceAX;
+		resultY = choiceAY;
+
+		showResult = true;
 	}
 
 	//Bボタンなら選択肢Bを選ぶ
@@ -113,16 +152,18 @@ eSceneType GameMainScene::Update()
 		if (correctAnswers[currentIndex] == 1)
 		{
 			correctCount++;
+			resultImageToShow = AnswerImage;
+		}
+		else
+		{
+			resultImageToShow = IncorrectImage;
 		}
 
-		//正解でも不正解でも次の問題へ
-		currentIndex++;
-	}
+		resultX = choiceBX;
+		resultY = choiceBY;
 
-	//全問終了
-	if (currentIndex >= questionImages.size())
-	{
-		return eSceneType::E_RESULT;
+		showResult = true;
+
 	}
 
 	return GetNowScene();
@@ -133,17 +174,23 @@ void GameMainScene::Draw() const
 	//背景画像
 	DrawGraph(0, 0, GameMainBack, TRUE);
 
-	//問題画像
-	DrawGraph(525, 68, questionImages[currentIndex], TRUE);
+	if (currentIndex >= questionImages.size()) return;
+		//問題画像
+		DrawGraph(525, 68, questionImages[currentIndex], TRUE);
 
-	//問題文画像
-	DrawGraph(190, 250, questImages[currentIndex], TRUE);
+		//問題文画像
+		DrawGraph(190, 250, questImages[currentIndex], TRUE);
 
-	//選択肢画像A
-	DrawGraph(395, 582, choiceAImages[currentIndex], TRUE);
+		//選択肢画像A
+		DrawGraph(395, 582, choiceAImages[currentIndex], TRUE);
 
-	//選択肢画像B
-	DrawGraph(875, 583, choiceBImages[currentIndex], TRUE);
+		//選択肢画像B
+		DrawGraph(875, 583, choiceBImages[currentIndex], TRUE);
+
+		if (showResult)
+		{
+			DrawGraph(resultX, resultY, resultImageToShow, TRUE);
+		}
 }
 
 void GameMainScene::Finalize()

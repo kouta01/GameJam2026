@@ -10,11 +10,29 @@ private:
 	int currentIndex;                //現在の問題番号
 	int selectIndex;                 //プレイヤーが選んだ選択肢(0=A, 1=B)
 	int correctCount;                //正解数
+	int AnswerImage;                 //正解画像
+	int IncorrectImage;              //不正解画像
+	bool showResult = false;         //結果表示中か?
+	int resultTimer;                 //結果表示の時間
+	int resultImageToShow;           //今表示する結果画像(正解か不正解)
 	std::vector<int> questionImages; //問題画像
 	std::vector<int> questImages;    //問題文画像
 	std::vector<int> choiceAImages;  //選択肢画像(A)
 	std::vector<int> choiceBImages;  //選択肢画像(B)
 	std::vector<int> correctAnswers; //正解(0=A, 1=B)
+	
+private:
+	//選択肢Aの表示位置
+	const int choiceAX = 395;
+	const int choiceAY = 582;
+
+	//選択肢Bの表示位置
+	const int choiceBX = 875;
+	const int choiceBY = 583;
+
+	//結果画像の表示位置
+	int resultX = 0;
+	int resultY = 0;
 
 public:
 	GameMainScene();
