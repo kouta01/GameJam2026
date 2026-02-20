@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="Objects\GameObject.h" />
     <ClInclude Include="Objects\GameObjectBase.h" />
+    <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="Objects\view\Quest.h" />
     <ClInclude Include="Scenes\GameMainScene\GameMainScene.h" />
     <ClInclude Include="Scenes\HelpScene\HelpScene.h" />
     <ClInclude Include="Scenes\Result\ResultScene.h" />
@@ -34,6 +36,8 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Objects\GameObjectBase.cpp" />
+    <ClCompile Include="Objects\Player.cpp" />
+    <ClCompile Include="Objects\view\Quest.cpp" />
     <ClCompile Include="Scenes\GameMainScene\GameMainScene.cpp" />
     <ClCompile Include="Scenes\HelpScene\HelpScene.cpp" />
     <ClCompile Include="Scenes\Result\ResultScene.cpp" />
