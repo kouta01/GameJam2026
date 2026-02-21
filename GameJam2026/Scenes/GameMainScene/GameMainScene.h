@@ -14,6 +14,10 @@ private:
 	int timer = 60 * 60;             //タイマー(1分)           
 	int AnswerImage;                 //正解画像
 	int IncorrectImage;              //不正解画像
+	int gameBGM;                     //BGM
+	int seCorrect;                   //正解SE
+	int seIncorrect;                 //不正解SE
+	int seNextQuestion;              //次の問題が出るときのSE
 	bool showResult = false;         //結果表示中か?
 	int resultTimer;                 //結果表示の時間
 	int resultImageToShow;           //今表示する結果画像(正解か不正解)
