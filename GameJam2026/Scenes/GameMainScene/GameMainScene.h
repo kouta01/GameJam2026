@@ -23,6 +23,7 @@ private:
 	int resultImageToShow;           //今表示する結果画像(正解か不正解)
 	static float finalScore;		 //リザルト用スコア
 	static int finalRemainingSeconds;//リザルト用タイマー
+	static float highScore;			 //タイトル用スコア
 	std::vector<int> questionImages; //問題画像
 	std::vector<int> questImages;    //問題文画像
 	std::vector<int> choiceAImages;  //選択肢画像(A)
@@ -57,6 +58,7 @@ public:
 	
 	static float GetFinalScore();		//最終スコア格納
 	static int GetFinalRemainingSeconds();//最終時間格納
+	static float GetHighScore();		//歴代スコア格納
 	int GetCorrectCount() const { return correctCount; }
 	int GetScore() const { return score; }
 	virtual eSceneType GetNowScene() const override

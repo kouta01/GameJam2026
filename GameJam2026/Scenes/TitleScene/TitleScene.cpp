@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "../../Utility/InputManager.h"
+#include "../../Scenes/GameMainScene/GameMainScene.h"
 #include "DxLib.h"
 
 TitleScene::TitleScene() : title_image(NULL), menu_image(NULL),
@@ -117,6 +118,12 @@ void TitleScene::Draw()const
 	//タイトルネーム
 	SetFontSize(100);
 	DrawString(150, 20, "Quiz", 0x000000);
+
+	SetFontSize(80);
+	//ハイスコア表示
+	DrawFormatString(600, 10, 0xffffff, "HIGH SCORE : %.1f",
+		GameMainScene::GetHighScore());
+
 }
 
 //終了時処理
