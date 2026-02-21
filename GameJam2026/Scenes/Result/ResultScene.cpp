@@ -11,8 +11,9 @@ ResultScene::ResultScene()
     ,bgm(-1)
     ,se(-1)
     ,resultTimer(0)
-    ,resultPhase(0)
+    ,resultPhase(-1)
     ,displayScore(0.0f)
+    ,isEndSePlayed(false)
 {
     // メンバ変数の初期化
 }
@@ -36,7 +37,8 @@ void ResultScene::Initialize()
     Remainingtime =LoadGraph("Resource/Image/Result3.png");
     bgm = LoadSoundMem("Resource/sound/result_bgm.mp3");
     se = LoadSoundMem("Resource/sound/se.wav");
-    newSe = LoadSoundMem("Resource/sound/new_se.wav");
+    newSe = LoadSoundMem("Resource/Sounds/score.mp3");
+    backSe = LoadSoundMem("Resource/Sounds/kuizuend.mp3");
 
     // 読み込み失敗チェック
     //if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
@@ -63,12 +65,14 @@ eSceneType ResultScene::Update()
         {
                 resultPhase++;
                 resultTimer = 0;
+
                 //SEを鳴らす
                 PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
 
         }
     }
 
+    
     //スコア表示タイミグでカウントアップ演出をはさむ
     if (resultPhase == 2)
     {
@@ -83,10 +87,18 @@ eSceneType ResultScene::Update()
         }
         else
         {
+
             resultPhase = 3;
+            PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
+            
         }
     }
-
+    // 「Bボタンでタイトルへ」が表示される段階
+    if (resultPhase >= 3 && !isEndSePlayed)
+    {
+        PlaySoundMem(backSe, DX_PLAYTYPE_BACK);  // 音を鳴らす
+        isEndSePlayed = true;                   // 鳴らした記録を残す
+    }
     // Bボタンが押された瞬間を検出
     if (input->GetButtonDown(PAD_B))
     {
@@ -139,10 +151,11 @@ void ResultScene::Draw() const
         {
             if ((GetNowCount() / 500) % 2 == 0)
             {
-                DrawString(700, 500, "NEW RECORD ！！", 0xffd700);
+                DrawString(760, 500, "NEW RECORD!", 0xffd700);
             }
         }
         DrawString(250, 610, "Bボタンでタイトルへ", 0xdc143c);
+    
     }
 }
 
@@ -157,5 +170,6 @@ void ResultScene::Finalize()
     DeleteSoundMem(bgm);
     DeleteSoundMem(se);
     DeleteSoundMem(newSe);
+    DeleteSoundMem(backSe);
     
 }
