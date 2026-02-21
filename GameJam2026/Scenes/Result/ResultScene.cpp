@@ -8,7 +8,7 @@ ResultScene::ResultScene()
     ,correctTitle(0)
     ,Remainingtime(0)
     ,scoreTitle(0)
-    ,bgm(-1)
+    ,bgm(0)
     ,se(-1)
     ,resultTimer(0)
     ,resultPhase(-1)
@@ -35,7 +35,7 @@ void ResultScene::Initialize()
     correctTitle = LoadGraph("Resource/Image/Result1.png");
     scoreTitle = LoadGraph("Resource/Image/Result2.png");
     Remainingtime =LoadGraph("Resource/Image/Result3.png");
-    bgm = LoadSoundMem("Resource/sound/result_bgm.mp3");
+    bgm = LoadSoundMem("Resource/Sounds/nc260619.mp3");
     se = LoadSoundMem("Resource/sound/se.wav");
     newSe = LoadSoundMem("Resource/Sounds/score.mp3");
     backSe = LoadSoundMem("Resource/Sounds/kuizuend.mp3");
@@ -80,7 +80,9 @@ eSceneType ResultScene::Update()
 
         if (displayScore < target)
         {
+            PlaySoundMem(bgm, DX_PLAYTYPE_BACK);
             displayScore += 0.1f;   // 増えるスピード調整可
+            
 
             if (displayScore > target)
                 displayScore = target;
@@ -89,7 +91,7 @@ eSceneType ResultScene::Update()
         {
 
             resultPhase = 3;
-            PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
+            //PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
             
         }
     }
