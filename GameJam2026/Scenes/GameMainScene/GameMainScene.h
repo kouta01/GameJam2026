@@ -18,6 +18,8 @@ private:
 	bool showResult = false;         //結果表示中か?
 	int resultTimer;                 //結果表示の時間
 	int resultImageToShow;           //今表示する結果画像(正解か不正解)
+	static float finalScore;		 //リザルト用スコア
+	static int finalRemainingSeconds;//リザルト用タイマー
 	std::vector<int> questionImages; //問題画像
 	std::vector<int> questImages;    //問題文画像
 	std::vector<int> choiceAImages;  //選択肢画像(A)
@@ -48,6 +50,10 @@ private:
 	virtual void Finalize() override;
 
 public:
+	
+	
+	static float GetFinalScore();		//最終スコア格納
+	static int GetFinalRemainingSeconds();//最終時間格納
 	int GetCorrectCount() const { return correctCount; }
 	int GetScore() const { return score; }
 	virtual eSceneType GetNowScene() const override

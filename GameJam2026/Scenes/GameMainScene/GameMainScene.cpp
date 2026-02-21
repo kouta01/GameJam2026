@@ -5,6 +5,11 @@
 #include "../../Utility/InputManager.h"
 #include<DxLib.h>
 
+//最終スコア初期化処理
+float GameMainScene::finalScore = 0.0f;
+//最終時間初期化処理
+int GameMainScene::finalRemainingSeconds = 0;
+
 GameMainScene::GameMainScene()
 	:GameMainBack(0)
 	,currentIndex(0)
@@ -93,11 +98,12 @@ void GameMainScene::Initialize()
 	correctAnswers.push_back(1);  //Q9の正解はB
 	correctAnswers.push_back(0);  //Q10の正解はA
 
-	timer = 60 * 60; //60秒
+	timer = 45 * 60; //60秒
 
 	/*timerFont = CreateFontToHandle("");*/
 }
 
+//更新処理
 eSceneType GameMainScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
@@ -105,6 +111,10 @@ eSceneType GameMainScene::Update()
 	timer--;
 	if (timer <= 0)
 	{
+		timer = 0;		//マイナスポイント防止
+		//タイムボーナス結果
+		finalRemainingSeconds = timer / 60;
+		finalScore = correctCount + finalRemainingSeconds * 0.1f;
 		//時間切れならリザルトへ
 		return eSceneType::E_RESULT;
 	}
@@ -124,6 +134,9 @@ eSceneType GameMainScene::Update()
 			//全問終了
 			if (currentIndex >= questionImages.size())
 			{
+				//タイムボーナス結果
+				finalRemainingSeconds = timer / 60;
+				finalScore = correctCount + finalRemainingSeconds * 0.1f;
 				return eSceneType::E_RESULT;
 			}
 		}
@@ -182,6 +195,7 @@ eSceneType GameMainScene::Update()
 	return GetNowScene();
 }
 
+//描画処理
 void GameMainScene::Draw() const
 {
 	// currentIndex が問題数を超えたら描画しない
@@ -214,6 +228,19 @@ void GameMainScene::Draw() const
 		}
 }
 
+//最終スコア格納
+float GameMainScene::GetFinalScore()
+{
+	return finalScore;
+}
+
+//最終時間格納
+int GameMainScene::GetFinalRemainingSeconds()
+{
+	return finalRemainingSeconds;
+}
+
+//終了時処理
 void GameMainScene::Finalize()
 {
 

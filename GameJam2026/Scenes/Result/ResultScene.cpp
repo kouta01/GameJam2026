@@ -1,4 +1,5 @@
 #include "ResultScene.h"
+#include "../../Scenes/GameMainScene/GameMainScene.h"
 
 ResultScene::ResultScene()
     : background(-1)
@@ -59,11 +60,23 @@ void ResultScene::Draw() const
     // 結果表示用のボックス
     DrawBox(150, 150, 490, 330, GetColor(200, 100, 0), TRUE);
 
+    //フォントサイズ設定
+    SetFontSize(70);
+
     //正答数の表示
-    DrawFormatString(180, 180, 0xffffff, "正当数 : %d", correct);
+    DrawFormatString(90, 180, 0xffffff, "正当数 : %d ×", correct);
+
+    //フォントサイズ設定
+    SetFontSize(70);
+
+   //残り時間表示 
+    DrawFormatString(670, 180,GetColor(255, 255, 255),"残り時間 : %d 秒",
+        GameMainScene::GetFinalRemainingSeconds());
+
 
     //スコアの表示
-    DrawFormatString(180, 350, 0xffffff, "スコア : %d", score);
+    DrawFormatString(360, 400,GetColor(255, 255, 255),
+        "FINAL SCORE : %.1f",GameMainScene::GetFinalScore());
 }
 
 void ResultScene::Finalize()
