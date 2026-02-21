@@ -131,6 +131,32 @@ eSceneType GameMainScene::Update()
 		return GetNowScene();
 	}
 
+
+// ESCキー
+	if (CheckHitKey(KEY_INPUT_ESCAPE))
+	{
+		
+	}
+
+	// Startボタン
+	if (input->GetButtonDown(PAD_START))
+	{
+		
+	}
+
+	// Xボタン
+	if (input->GetButtonDown(PAD_X))
+	{
+		// 必要なら機能を追加
+	}
+
+	// Yボタン
+	if (input->GetButtonDown(PAD_Y))
+	{
+		// 必要なら機能を追加
+	}
+
+
 	//Aボタンなら選択肢Aを選ぶ
 	if (input->GetButtonDown(PAD_A))
 	{
