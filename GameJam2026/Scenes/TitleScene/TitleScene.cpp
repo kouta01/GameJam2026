@@ -4,7 +4,7 @@
 #include "DxLib.h"
 
 TitleScene::TitleScene() : title_image(NULL), menu_image(NULL),
-titlebgm(NULL), decisionbgm(NULL)/ menu_cursor(0), choice_flag(0), selectbgm(NULL)
+titlebgm(NULL), decisionbgm(NULL), menu_cursor(0), choice_flag(0), selectbgm(NULL),nextScene(-1), changeTimer(0)
 {
 
 }
@@ -47,10 +47,6 @@ void TitleScene::Initialize()
 	
 }
 
-void TitleScene::Finalize()
-{
-}
-
 eSceneType TitleScene::Update()
 {
 	//BGM‚ÌÄ¶
@@ -65,8 +61,7 @@ eSceneType TitleScene::Update()
 		{
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
-
-		PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
+		//PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
 		return eSceneType::E_MAIN;
 	}
 
@@ -93,11 +88,24 @@ eSceneType TitleScene::Update()
 
 	if (InputManager::GetInstance()->GetButtonDown(PAD_X))
 	{
-		//if (CheckSoundMem(selectbgm) != TRUE)
-		//{
-			//PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
-		//}
-		return eSceneType::E_HELP;
+		if (CheckSoundMem(selectbgm) != TRUE)
+		{
+			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+		}
+		
+		changeTimer = 200;
+        return eSceneType::E_HELP;
+	}
+
+	if (changeTimer > 0)
+	{
+		changeTimer--;
+
+		if (changeTimer == 0)
+		{
+			StopSoundMem(titlebgm);
+			return (eSceneType)nextScene;
+		}
 	}
 
 
