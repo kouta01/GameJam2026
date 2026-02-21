@@ -36,6 +36,7 @@ void ResultScene::Initialize()
     Remainingtime =LoadGraph("Resource/Image/Result3.png");
     bgm = LoadSoundMem("Resource/sound/result_bgm.mp3");
     se = LoadSoundMem("Resource/sound/se.wav");
+    newSe = LoadSoundMem("Resource/sound/new_se.wav");
 
     // 読み込み失敗チェック
     if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
@@ -64,6 +65,9 @@ eSceneType ResultScene::Update()
         {
                 resultPhase++;
                 resultTimer = 0;
+                //SEを鳴らす
+                PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
+
         }
     }
 
@@ -147,4 +151,6 @@ void ResultScene::Finalize()
     DeleteGraph(Remainingtime);
     DeleteSoundMem(bgm);
     DeleteSoundMem(se);
+    DeleteSoundMem(newSe);
+    
 }
