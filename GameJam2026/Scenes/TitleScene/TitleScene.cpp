@@ -3,7 +3,7 @@
 #include "DxLib.h"
 
 TitleScene::TitleScene() : title_image(NULL), menu_image(NULL),
-titlebgm(NULL), decisionbgm(NULL),menu_cursor(0), choice_flag(0), selectbgm(NULL)
+titlebgm(NULL), decisionbgm(NULL)/ menu_cursor(0), choice_flag(0), selectbgm(NULL)
 {
 
 }
@@ -21,11 +21,11 @@ void TitleScene::Initialize()
 	title_image = LoadGraph("Resource/Image/Title.png");
 	
 	//menu_image = LoadGraph("");
-	//cursor_image=LoadGraph("");
-
+	//cursor_image=LoadGraph("")
+	// 
 	//BGM.SEの読み込み
-	selectbgm = LoadSoundMem("Resource/Sounds/maou_se_system27.mp3");
-	//titlebgm = LoadSoundMem("");
+	selectbgm = LoadSoundMem("Resource/Sounds/Confirm-button.wav");
+	titlebgm = LoadSoundMem("Resource/Sounds/TitleBGM.mp3");
 
 	//エラーチェック
 	if (title_image == -1)
@@ -34,26 +34,38 @@ void TitleScene::Initialize()
 	}
 	if (selectbgm == -1)
 	{
-		throw("Resource/Sounds/maou_se_system27.mp3がありません\n");
+		throw("Resource/Sounds/Confirm buttonがありません\n");
 	}
+	if (titlebgm == -1)
+	{
+		throw("Resource/Sounds/TitleBGM.mp3がありません?n");
+	}
+
+    ChangeVolumeSoundMem(100, titlebgm); 
+    PlaySoundMem(titlebgm, DX_PLAYTYPE_LOOP, TRUE);
+	
+}
+
+void TitleScene::Finalize()
+{
 }
 
 eSceneType TitleScene::Update()
 {
 	//BGMの再生
-
-
+	
 	//ボタン決定->Aボタン場合
 	if (InputManager::GetInstance()->GetButtonDown(PAD_A))
 	{
 		/*choice_flag = 0;*/
-
+		StopSoundMem(titlebgm);
 		//SEがながれてないとき再生
 		if (CheckSoundMem(selectbgm) != TRUE)
 		{
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
 
+		PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
 		return eSceneType::E_MAIN;
 	}
 
@@ -65,7 +77,7 @@ eSceneType TitleScene::Update()
 		//SEが流れていないとき再生
 		if (CheckSoundMem(selectbgm) != TRUE)
 		{
-			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+			//PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
 
 		return eSceneType::E_END;
@@ -80,6 +92,10 @@ eSceneType TitleScene::Update()
 
 	if (InputManager::GetInstance()->GetButtonDown(PAD_X))
 	{
+		//if (CheckSoundMem(selectbgm) != TRUE)
+		//{
+			//PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+		//}
 		return eSceneType::E_HELP;
 	}
 
@@ -109,7 +125,7 @@ void TitleScene::Draw()const
 
 	//操作ログ
 	SetFontSize(30);
-	DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで",0x000000);
+	DrawString(120, 400, "Aボタンでゲーム開始、\nXボタンでヘルプ画面、\nStartボタンで",0x000000);
 	//素材ログ
 	SetFontSize(20);
 	//DrawString()
@@ -120,12 +136,13 @@ void TitleScene::Draw()const
 }
 
 //終了時処理
-void TitleScene::Finalize() 
+void TitleScene::Finalize()
 {
 	//読み込んだ画像の削除
 	DeleteGraph(title_image);
 	DeleteGraph(menu_image);
-	DeleteGraph(titlebgm);
+	DeleteSoundMem(titlebgm);
+	DeleteSoundMem(selectbgm);
 }
 
 eSceneType TitleScene::GetNowScene() const
