@@ -25,7 +25,8 @@ void TitleScene::Initialize()
 	//cursor_image=LoadGraph("");
 
 	//BGM.SEの読み込み
-	selectbgm = LoadSoundMem("Resource/Sounds/maou_se_system27.mp3");
+	selectbgm = LoadSoundMem("Resource/Sounds/Confirm-button.wav");
+	titlebgm = LoadSoundMem("Resource/Sounds/TitleBGM.mp3");
 	//titlebgm = LoadSoundMem("");
 
 	//エラーチェック
@@ -35,26 +36,32 @@ void TitleScene::Initialize()
 	}
 	if (selectbgm == -1)
 	{
-		throw("Resource/Sounds/maou_se_system27.mp3がありません\n");
+		throw("Resource/Sounds/Confirm-button.wavがありません\n");
 	}
+	if (titlebgm == -1)
+	{
+		throw("Resource/Sounds/TitleBGM.mp3がありません\n");
+	}
+
+	ChangeVolumeSoundMem(100, titlebgm);
+	PlaySoundMem(titlebgm, DX_PLAYTYPE_LOOP, TRUE);
 }
 
 eSceneType TitleScene::Update()
 {
 	//BGMの再生
 
-
 	//ボタン決定->Aボタン場合
 	if (InputManager::GetInstance()->GetButtonDown(PAD_A))
 	{
 		/*choice_flag = 0;*/
-
+		StopSoundMem(titlebgm);
 		//SEがながれてないとき再生
 		if (CheckSoundMem(selectbgm) != TRUE)
 		{
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
-
+		//PlaySoundMem(titlebgm, DX_PLAYTYPE_BACK, TRUE);
 		return eSceneType::E_MAIN;
 	}
 
@@ -132,7 +139,8 @@ void TitleScene::Finalize()
 	//読み込んだ画像の削除
 	DeleteGraph(title_image);
 	DeleteGraph(menu_image);
-	DeleteGraph(titlebgm);
+	DeleteSoundMem(titlebgm);
+	DeleteSoundMem(selectbgm);
 }
 
 eSceneType TitleScene::GetNowScene() const
