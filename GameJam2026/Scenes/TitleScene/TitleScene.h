@@ -15,8 +15,8 @@ private:
 	int selectbgm;             //カーソル移動のSE
 	int decisionbgm;           //決定時のSE
 
-	int nextScene;      // 次に行くシーン
-	int changeTimer;    // 遷移待ちタイマー
+	//int nextScene;      // 次に行くシーン
+	//int changeTimer;    // 遷移待ちタイマー
 
 public:
 	TitleScene();
