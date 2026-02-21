@@ -9,6 +9,8 @@
 float GameMainScene::finalScore = 0.0f;
 //最終時間初期化処理
 int GameMainScene::finalRemainingSeconds = 0;
+//ハイスコア初期化処理
+float GameMainScene::highScore = 0.0f;
 
 GameMainScene::GameMainScene()
 	:GameMainBack(0)
@@ -115,6 +117,13 @@ eSceneType GameMainScene::Update()
 		//タイムボーナス結果
 		finalRemainingSeconds = timer / 60;
 		finalScore = correctCount + finalRemainingSeconds * 0.1f;
+
+		//ハイスコア更新処理
+		if (finalScore > highScore)
+		{
+			highScore = finalScore;
+		}
+
 		//時間切れならリザルトへ
 		return eSceneType::E_RESULT;
 	}
@@ -137,6 +146,14 @@ eSceneType GameMainScene::Update()
 				//タイムボーナス結果
 				finalRemainingSeconds = timer / 60;
 				finalScore = correctCount + finalRemainingSeconds * 0.1f;
+
+				//ハイスコア更新処理
+				if (finalScore > highScore)
+				{
+					highScore = finalScore;
+				}
+
+				//リザルトへ遷移
 				return eSceneType::E_RESULT;
 			}
 		}
@@ -264,6 +281,12 @@ float GameMainScene::GetFinalScore()
 int GameMainScene::GetFinalRemainingSeconds()
 {
 	return finalRemainingSeconds;
+}
+
+//ハイスコア格納
+float GameMainScene::GetHighScore()
+{
+	return highScore;
 }
 
 //終了時処理
