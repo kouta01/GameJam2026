@@ -7,7 +7,7 @@ eSceneType HelpScene::Update()
 {
     InputManager* input = InputManager::GetInstance();
 
-    // Bボタンが押されたらタイトルへ戻る
+    // Aボタンが押されたらタイトルへ戻る
     if (input->GetButtonDown(PAD_A))
     {
         return eSceneType::E_TITLE;

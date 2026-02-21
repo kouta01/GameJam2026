@@ -69,20 +69,20 @@ eSceneType TitleScene::Update()
 			PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
 		}
 
-		return eSceneType::E_END;
+		return eSceneType::E_HELP;
 	}
 
 	//ボタン決定→startボタン場合
-	if (InputManager::GetInstance()->GetButtonDown(XINPUT_BUTTON_START))
+	if (InputManager::GetInstance()->GetButtonDown(PAD_START))
 	{
 		return eSceneType::E_END;
 		/*choice_flag = 2;*/
 	}
 
-	if (InputManager::GetInstance()->GetButtonDown(PAD_X))
-	{
-		return eSceneType::E_HELP;
-	}
+	//if (InputManager::GetInstance()->GetButtonDown(PAD_X))
+	//{
+	//	return eSceneType::E_HELP;
+	//}
 
 
 	//決定した画面に遷移する
@@ -110,7 +110,7 @@ void TitleScene::Draw()const
 
 	//操作ログ
 	SetFontSize(30);
-	DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで",0x000000);
+	DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで終了",0x000000);
 	//素材ログ
 	SetFontSize(20);
 	//DrawString()
