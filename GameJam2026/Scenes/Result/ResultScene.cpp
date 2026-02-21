@@ -29,7 +29,7 @@ void ResultScene::Initialize()
 
 
     // リザルト画面の背景画像・BGM・効果音を読み込み
-    background = LoadGraph("Resource/images/result.png");
+    //background = LoadGraph("Resource/images/result.png");
     resultTitle = LoadGraph("Resource/Image/Result.png");
     correctTitle = LoadGraph("Resource/Image/Result1.png");
     scoreTitle = LoadGraph("Resource/Image/Result2.png");
@@ -38,15 +38,13 @@ void ResultScene::Initialize()
     se = LoadSoundMem("Resource/sound/se.wav");
 
     // 読み込み失敗チェック
-    if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
+    //if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
     if (resultTitle == -1) MessageBox(NULL, "ResultTitle.pngがありません", "Error", MB_OK);
     if (correctTitle == -1) MessageBox(NULL, "correctTitle.pngがありません", "Error", MB_OK);
     if(Remainingtime == -1) MessageBox(NULL, "Remainingtime.pngがありません", "Error", MB_OK);
     if (scoreTitle == -1) MessageBox(NULL, "sscoreTitle.pngがありません", "Error", MB_OK);
     if (bgm == -1)        MessageBox(NULL, "BGMがありません", "Error", MB_OK);
 
-    // BGMをループ再生
-    PlaySoundMem(bgm, DX_PLAYTYPE_LOOP);
 }
 
 eSceneType ResultScene::Update()
@@ -115,24 +113,31 @@ void ResultScene::Draw() const
 
     if (resultPhase >= 0)//正答数の表示
     {
-        DrawFormatString(710, 180, 0xffffff, "%d", correct);
+        DrawFormatString(610, 180, 0xffffff, "%d", correct);
 
     }
 
     if (resultPhase >= 1)//残り時間
     {
-        DrawFormatString(690, 350, 0xffffff, "%d", 
+        DrawFormatString(590, 350, 0xffffff, "%d", 
          GameMainScene::GetFinalRemainingSeconds());
     }
 
     if (resultPhase >= 2) //スコアの表示
     {
-        DrawFormatString(660, 500, 0xffffff, "%.1f", 
+        DrawFormatString(550, 500, 0xffffff, "%.1f", 
          displayScore);
     }
 
     if (resultPhase >= 3)
     {
+        if (GameMainScene::IsNewRecord())
+        {
+            if ((GetNowCount() / 500) % 2 == 0)
+            {
+                DrawString(700, 500, "NEW RECORD ！！", 0xffd700);
+            }
+        }
         DrawString(250, 610, "Bボタンでタイトルへ", 0xdc143c);
     }
 }
