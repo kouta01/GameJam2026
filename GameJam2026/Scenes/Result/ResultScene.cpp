@@ -1,4 +1,5 @@
 #include "ResultScene.h"
+#include"../../Scenes/GameMainScene/GameMainScene.h"
 #include "../../Utility/InputManager.h"   
 
 ResultScene::ResultScene()
@@ -76,8 +77,13 @@ void ResultScene::Draw() const
     //正答数の表示
     DrawFormatString(710, 180, 0xffffff, "%d", correct);
 
+    //残り時間
+    DrawFormatString(680, 350, 0xffffff, "%d", 
+        GameMainScene::GetFinalRemainingSeconds());
+
     //スコアの表示
-    DrawFormatString(660, 350, 0xffffff, "%d", score);
+    DrawFormatString(660, 500, 0xffffff, "%.1f", 
+        GameMainScene::GetFinalScore());
 }
 
 void ResultScene::Finalize()
