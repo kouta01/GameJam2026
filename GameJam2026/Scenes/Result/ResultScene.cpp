@@ -29,7 +29,7 @@ void ResultScene::Initialize()
 
     // リザルト画面の背景画像・BGM・効果音を読み込み
     background = LoadGraph("Resource/images/result.png");
-    resultTitle = LoadGraph("Resource/Image/ResultTitle.png");
+    resultTitle = LoadGraph("Resource/Image/Result.png");
     correctTitle = LoadGraph("Resource/Image/Result1.png");
     scoreTitle = LoadGraph("Resource/Image/Result2.png");
     bgm = LoadSoundMem("Resource/sound/result_bgm.mp3");
@@ -128,7 +128,7 @@ void ResultScene::Draw() const
 
     if (resultPhase >= 3)
     {
-        DrawString(500, 610, "Bボタンでタイトルへ", 0xdc143c);
+        DrawString(250, 610, "Bボタンでタイトルへ", 0xdc143c);
     }
 }
 
