@@ -59,7 +59,7 @@ void InputManager::Update()
     now_button[PAD_B] = (state & PAD_INPUT_2) != 0;
     now_button[PAD_X] = (state & PAD_INPUT_3) != 0;
     now_button[PAD_Y] = (state & PAD_INPUT_4) != 0;
-    now_button[PAD_START] = (state & PAD_INPUT_5) != 0;
+    now_button[PAD_START] = (state & PAD_INPUT_8) != 0;
 
     // ÉgÉäÉKÅ[ílê≥ãKâª
     trigger[0] = TriggerNormalization(dxInput.LeftTrigger);
