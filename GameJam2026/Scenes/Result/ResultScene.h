@@ -7,10 +7,12 @@ class ResultScene : public SceneBase
 {
 private:
     // 画像・音声のハンドル
-    int background;  // リザルト背景画像
-    int resultTitle; //リザルト名
-    int bgm;         // リザルトBGM
-    int se;          // 決定音などの効果音
+    int background;    // リザルト背景画像
+    int resultTitle;   //リザルト名
+    int correctTitle;  //正答数名
+    int scoreTitle;    //スコア名
+    int bgm;           // リザルトBGM
+    int se;            // 決定音などの効果音
 
     // 表示するスコア情報
     int score;       // スコア

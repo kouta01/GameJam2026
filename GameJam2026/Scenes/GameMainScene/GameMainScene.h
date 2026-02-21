@@ -11,8 +11,7 @@ private:
 	int selectIndex;                 //プレイヤーが選んだ選択肢(0=A, 1=B)
 	int correctCount;                //正解数
 	int score = 0;                   //スコア
-	int timer = 60 * 60;             //タイマー(1分)
-	int timerFont;              
+	int timer = 60 * 60;             //タイマー(1分)           
 	int AnswerImage;                 //正解画像
 	int IncorrectImage;              //不正解画像
 	bool showResult = false;         //結果表示中か?
