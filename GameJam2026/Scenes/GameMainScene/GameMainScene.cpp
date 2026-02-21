@@ -9,8 +9,6 @@
 float GameMainScene::finalScore = 0.0f;
 //最終時間初期化処理
 int GameMainScene::finalRemainingSeconds = 0;
-//ハイスコア初期化処理
-float GameMainScene::highScore = 0.0f;
 
 GameMainScene::GameMainScene()
 	:GameMainBack(0)
@@ -39,6 +37,19 @@ void GameMainScene::Initialize()
 
 	//不正解画像
 	IncorrectImage = LoadGraph("Resource/Image/Incorrect.png");
+
+	//BGM
+	gameBGM = LoadSoundMem("Resource/Sounds/Thinkingtime.mp3");
+	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
+
+	// 正解SE
+	seCorrect = LoadSoundMem("Resource/Sounds/seikai.mp3");
+
+	// 不正解SE
+	seIncorrect = LoadSoundMem("Resource/Sounds/huseikai.mp3");
+
+	//出題SE
+	//seNextQuestion = LoadSoundMem("Resource/Sounds/出題1.mp3");
 
 	//問題画像
 	questionImages.push_back(LoadGraph("Resource/Image/Question1.png"));
@@ -117,13 +128,6 @@ eSceneType GameMainScene::Update()
 		//タイムボーナス結果
 		finalRemainingSeconds = timer / 60;
 		finalScore = correctCount + finalRemainingSeconds * 0.1f;
-
-		//ハイスコア更新処理
-		if (finalScore > highScore)
-		{
-			highScore = finalScore;
-		}
-
 		//時間切れならリザルトへ
 		return eSceneType::E_RESULT;
 	}
@@ -140,6 +144,11 @@ eSceneType GameMainScene::Update()
 			resultTimer = 0;
 
 			currentIndex++;
+
+			//問題が出るときのSE
+			//PlaySoundMem(seNextQuestion, DX_PLAYTYPE_BACK);
+
+
 			//全問終了
 			if (currentIndex >= questionImages.size())
 			{
@@ -147,13 +156,10 @@ eSceneType GameMainScene::Update()
 				finalRemainingSeconds = timer / 60;
 				finalScore = correctCount + finalRemainingSeconds * 0.1f;
 
-				//ハイスコア更新処理
-				if (finalScore > highScore)
-				{
-					highScore = finalScore;
-				}
+				//SE停止
+				StopSoundMem(seCorrect);
+				StopSoundMem(seIncorrect);
 
-				//リザルトへ遷移
 				return eSceneType::E_RESULT;
 			}
 		}
@@ -198,10 +204,16 @@ eSceneType GameMainScene::Update()
 			correctCount++;
 			score += 2;
 			resultImageToShow = AnswerImage;
+			StopSoundMem(seCorrect);                     //SE停止
+			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //正解SE
+
 		}
 		else
 		{
 			resultImageToShow = IncorrectImage;
+			StopSoundMem(seCorrect);                     //SE停止
+			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //不正解SE
+
 		}
 
 		//Aの位置に結果画像を表示
@@ -222,10 +234,16 @@ eSceneType GameMainScene::Update()
 			correctCount++;
 			score += 2;
 			resultImageToShow = AnswerImage;
+			StopSoundMem(seCorrect);                     //重なり防止
+			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //正解SE
+
 		}
 		else
 		{
 			resultImageToShow = IncorrectImage;
+			StopSoundMem(seCorrect);                     //重なり防止
+			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //不正解SE
+
 		}
 
 		resultX = choiceBX;
@@ -283,14 +301,8 @@ int GameMainScene::GetFinalRemainingSeconds()
 	return finalRemainingSeconds;
 }
 
-//ハイスコア格納
-float GameMainScene::GetHighScore()
-{
-	return highScore;
-}
-
 //終了時処理
 void GameMainScene::Finalize()
 {
-
+	DeleteSoundMem(gameBGM);
 }
