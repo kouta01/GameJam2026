@@ -121,7 +121,7 @@ void TitleScene::Draw()const
 
 	SetFontSize(80);
 	//ハイスコア表示
-	DrawFormatString(600, 10, 0xffffff, "HIGH SCORE : %.1f",
+	DrawFormatString(550, 10, 0xffffff, "HIGH SCORE : %.1f",
 		GameMainScene::GetHighScore());
 
 }

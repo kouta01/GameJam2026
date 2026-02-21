@@ -9,6 +9,9 @@ ResultScene::ResultScene()
     ,scoreTitle(0)
     ,bgm(-1)
     ,se(-1)
+    ,resultTimer(0)
+    ,resultPhase(0)
+    ,displayScore(0.0f)
 {
     // メンバ変数の初期化
 }
@@ -48,6 +51,37 @@ eSceneType ResultScene::Update()
     // InputManagerのインスタンスを取得
     InputManager* input = InputManager::GetInstance();
 
+    resultTimer++;
+
+    //60フレームごとに次の次の段階へ(１秒)
+    //正答数、残り時間だけスムーズに実行
+    if (resultPhase < 2)
+    {
+        if (resultTimer > 60)
+        {
+                resultPhase++;
+                resultTimer = 0;
+        }
+    }
+
+    //スコア表示タイミグでカウントアップ演出をはさむ
+    if (resultPhase == 2)
+    {
+        float target = GameMainScene::GetFinalScore();
+
+        if (displayScore < target)
+        {
+            displayScore += 0.1f;   // 増えるスピード調整可
+
+            if (displayScore > target)
+                displayScore = target;
+        }
+        else
+        {
+            resultPhase = 3;
+        }
+    }
+
     // Bボタンが押された瞬間を検出
     if (input->GetButtonDown(PAD_B))
     {
@@ -74,16 +108,28 @@ void ResultScene::Draw() const
     //// 結果表示用のボックス
     //DrawBox(150, 150, 490, 330, GetColor(200, 100, 0), TRUE);
 
-    //正答数の表示
-    DrawFormatString(710, 180, 0xffffff, "%d", correct);
+    if (resultPhase >= 0)//正答数の表示
+    {
+        DrawFormatString(710, 180, 0xffffff, "%d", correct);
 
-    //残り時間
-    DrawFormatString(680, 350, 0xffffff, "%d", 
-        GameMainScene::GetFinalRemainingSeconds());
+    }
 
-    //スコアの表示
-    DrawFormatString(660, 500, 0xffffff, "%.1f", 
-        GameMainScene::GetFinalScore());
+    if (resultPhase >= 1)//残り時間
+    {
+        DrawFormatString(690, 350, 0xffffff, "%d", 
+         GameMainScene::GetFinalRemainingSeconds());
+    }
+
+    if (resultPhase >= 2) //スコアの表示
+    {
+        DrawFormatString(660, 500, 0xffffff, "%.1f", 
+         displayScore);
+    }
+
+    if (resultPhase >= 3)
+    {
+        DrawString(500, 610, "Bボタンでタイトルへ", 0xdc143c);
+    }
 }
 
 void ResultScene::Finalize()
