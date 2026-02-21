@@ -116,7 +116,7 @@ void GameMainScene::Initialize()
 	correctAnswers.push_back(1);  //Q9の正解はB
 	correctAnswers.push_back(0);  //Q10の正解はA
 
-	timer = 45 * 60; //60秒
+	timer = 46 * 60; //60秒
 
 	timerFont = CreateFontToHandle("BIZ UDPゴシック",96,7);
 }

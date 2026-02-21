@@ -131,13 +131,13 @@ void ResultScene::Draw() const
 
     if (resultPhase >= 0)//³“š”‚Ì•\Ž¦
     {
-        DrawFormatString(610, 180, 0xffffff, "%d", correct);
+        DrawFormatString(590, 180, 0xffffff, "%d", correct);
 
     }
 
     if (resultPhase >= 1)//Žc‚èŽžŠÔ
     {
-        DrawFormatString(590, 350, 0xffffff, "%d", 
+        DrawFormatString(590, 360, 0xffffff, "%d", 
          GameMainScene::GetFinalRemainingSeconds());
     }
 

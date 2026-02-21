@@ -2,9 +2,20 @@
 //#include "DxLib.h"
 
 #define QUESTION_MAX 10
+/*例 列挙型で名前付け*/
+
+//enum eQuestion {
+//    question1,
+//    question2,
+//    question3,
+//    question4,
+//
+//};
 
 class Qizu
 {
+protected:
+    //eQuestion type;       // オブジェクトの名前付け
 public:
     Qizu();
 
