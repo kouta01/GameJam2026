@@ -25,6 +25,7 @@ private:
 	static int finalRemainingSeconds;//リザルト用タイマー
 	static float highScore;			 //タイトル用スコア
 	static bool isNewRecord;		 //ニューレコード用スコア
+	int timerFont;					 //コードによるフォント作製
 	std::vector<int> questionImages; //問題画像
 	std::vector<int> questImages;    //問題文画像
 	std::vector<int> choiceAImages;  //選択肢画像(A)

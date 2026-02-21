@@ -1,17 +1,18 @@
-#include "GameMainScene.h"
+ï»¿#include "GameMainScene.h"
 #include "../../Objects/Player.h"
 //#include "../../Objects/Quiz.h"
 //#include "../../Objects/View/questView.h"
 #include "../../Utility/InputManager.h"
 #include<DxLib.h>
+#include <tchar.h>
 
-//ÅIƒXƒRƒA‰Šú‰»ˆ—
+//æœ€çµ‚ã‚¹ã‚³ã‚¢åˆæœŸåŒ–å‡¦ç†
 float GameMainScene::finalScore = 0.0f;
-//ÅIŠÔ‰Šú‰»ˆ—
+//æœ€çµ‚æ™‚é–“åˆæœŸåŒ–å‡¦ç†
 int GameMainScene::finalRemainingSeconds = 0;
-//Å‚ƒXƒRƒA‰Šú‰»ˆ—
+//æœ€é«˜ã‚¹ã‚³ã‚¢åˆæœŸåŒ–å‡¦ç†
 float GameMainScene::highScore = 0.0f;
-//ƒjƒ…[ƒŒƒR[ƒh‰Šú‰»ˆ—
+//ãƒ‹ãƒ¥ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰åˆæœŸåŒ–å‡¦ç†
 bool GameMainScene::isNewRecord = false;
 
 GameMainScene::GameMainScene()
@@ -33,29 +34,29 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Initialize()
 {	
-	//”wŒi‰æ‘œ
+	//èƒŒæ™¯ç”»åƒ
 	GameMainBack = LoadGraph("Resource/Image/InGame.png");
 
-	//³‰ğ‰æ‘œ
+	//æ­£è§£ç”»åƒ
 	AnswerImage = LoadGraph("Resource/Image/Answer.png");
 
-	//•s³‰ğ‰æ‘œ
+	//ä¸æ­£è§£ç”»åƒ
 	IncorrectImage = LoadGraph("Resource/Image/Incorrect.png");
 
 	//BGM
 	gameBGM = LoadSoundMem("Resource/Sounds/Thinkingtime.mp3");
 	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
 
-	// ³‰ğSE
+	// æ­£è§£SE
 	seCorrect = LoadSoundMem("Resource/Sounds/seikai.mp3");
 
-	// •s³‰ğSE
+	// ä¸æ­£è§£SE
 	seIncorrect = LoadSoundMem("Resource/Sounds/huseikai.mp3");
 
-	//o‘èSE
-	//seNextQuestion = LoadSoundMem("Resource/Sounds/o‘è1.mp3");
+	//å‡ºé¡ŒSE
+	//seNextQuestion = LoadSoundMem("Resource/Sounds/å‡ºé¡Œ1.mp3");
 
-	//–â‘è‰æ‘œ
+	//å•é¡Œç”»åƒ
 	questionImages.push_back(LoadGraph("Resource/Image/Question1.png"));
 	questionImages.push_back(LoadGraph("Resource/Image/Question1.png"));
 	questionImages.push_back(LoadGraph("Resource/Image/Question2.png"));
@@ -67,7 +68,7 @@ void GameMainScene::Initialize()
 	questionImages.push_back(LoadGraph("Resource/Image/Question1.png"));
 	questionImages.push_back(LoadGraph("Resource/Image/Question2.png"));
 
-	//–â‘è•¶‰æ‘œ
+	//å•é¡Œæ–‡ç”»åƒ
 	questImages.push_back(LoadGraph("Resource/Image/Hint/Hint1.png"));
 	questImages.push_back(LoadGraph("Resource/Image/Hint/Hint2.png"));
 	questImages.push_back(LoadGraph("Resource/Image/Hint/Hint3.png"));
@@ -79,7 +80,7 @@ void GameMainScene::Initialize()
 	questImages.push_back(LoadGraph("Resource/Image/Hint/Hint9.png"));
 	questImages.push_back(LoadGraph("Resource/Image/Hint/Hint10.png"));
 
-	//‘I‘ğˆA
+	//é¸æŠè‚¢A
 	choiceAImages.push_back(LoadGraph("Resource/Image/Choice/Choice1.png"));
 	choiceAImages.push_back(LoadGraph("Resource/Image/Choice/Choice6.png"));
 	choiceAImages.push_back(LoadGraph("Resource/Image/Choice/Choice3.png"));
@@ -91,7 +92,7 @@ void GameMainScene::Initialize()
 	choiceAImages.push_back(LoadGraph("Resource/Image/Choice/Choice1.png"));
 	choiceAImages.push_back(LoadGraph("Resource/Image/Choice/Choice10.png"));
 
-	//‘I‘ğˆB
+	//é¸æŠè‚¢B
 	choiceBImages.push_back(LoadGraph("Resource/Image/Choice/Choice5.png"));
 	choiceBImages.push_back(LoadGraph("Resource/Image/Choice/Choice2.png"));
 	choiceBImages.push_back(LoadGraph("Resource/Image/Choice/Choice6.png"));
@@ -103,24 +104,24 @@ void GameMainScene::Initialize()
 	choiceBImages.push_back(LoadGraph("Resource/Image/Choice/Choice9.png"));
 	choiceBImages.push_back(LoadGraph("Resource/Image/Choice/Choice5.png"));
 
-	//³‰ğ(0=A, 1=B)
-	correctAnswers.push_back(0);  //Q1‚Ì³‰ğ‚ÍA
-	correctAnswers.push_back(1);  //Q2‚Ì³‰ğ‚ÍB
-	correctAnswers.push_back(0);  //Q3‚Ì³‰ğ‚ÍA
-	correctAnswers.push_back(0);  //Q4‚Ì³‰ğ‚ÍA
-	correctAnswers.push_back(1);  //Q5‚Ì³‰ğ‚ÍB
-	correctAnswers.push_back(0);  //Q6‚Ì³‰ğ‚ÍA
-	correctAnswers.push_back(1);  //Q7‚Ì³‰ğ‚ÍB
-	correctAnswers.push_back(1);  //Q8‚Ì³‰ğ‚ÍB
-	correctAnswers.push_back(1);  //Q9‚Ì³‰ğ‚ÍB
-	correctAnswers.push_back(0);  //Q10‚Ì³‰ğ‚ÍA
+	//æ­£è§£(0=A, 1=B)
+	correctAnswers.push_back(0);  //Q1ã®æ­£è§£ã¯A
+	correctAnswers.push_back(1);  //Q2ã®æ­£è§£ã¯B
+	correctAnswers.push_back(0);  //Q3ã®æ­£è§£ã¯A
+	correctAnswers.push_back(0);  //Q4ã®æ­£è§£ã¯A
+	correctAnswers.push_back(1);  //Q5ã®æ­£è§£ã¯B
+	correctAnswers.push_back(0);  //Q6ã®æ­£è§£ã¯A
+	correctAnswers.push_back(1);  //Q7ã®æ­£è§£ã¯B
+	correctAnswers.push_back(1);  //Q8ã®æ­£è§£ã¯B
+	correctAnswers.push_back(1);  //Q9ã®æ­£è§£ã¯B
+	correctAnswers.push_back(0);  //Q10ã®æ­£è§£ã¯A
 
-	timer = 45 * 60; //60•b
+	timer = 45 * 60; //60ç§’
 
-	/*timerFont = CreateFontToHandle("");*/
+	timerFont = CreateFontToHandle("BIZ UDPã‚´ã‚·ãƒƒã‚¯",96,7);
 }
 
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 eSceneType GameMainScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
@@ -128,27 +129,32 @@ eSceneType GameMainScene::Update()
 	timer--;
 	if (timer <= 0)
 	{
-		timer = 0;		//ƒ}ƒCƒiƒXƒ|ƒCƒ“ƒg–h~
-		//ƒ^ƒCƒ€ƒ{[ƒiƒXŒ‹‰Ê
+		timer = 0;		//ãƒã‚¤ãƒŠã‚¹ãƒã‚¤ãƒ³ãƒˆé˜²æ­¢
+		//ã‚¿ã‚¤ãƒ ãƒœãƒ¼ãƒŠã‚¹çµæœ
 		finalRemainingSeconds = timer / 60;
 		finalScore = correctCount + finalRemainingSeconds * 0.1f;
 
-		// ƒnƒCƒXƒRƒAXV
+		// ãƒã‚¤ã‚¹ã‚³ã‚¢æ›´æ–°
 		if (finalScore > highScore)
 		{
-			highScore = finalScore;
+			highScore = finalScore;//ãƒã‚¤ã‚¹ã‚³ã‚¢æ›´æ–°
+			isNewRecord = true;		//ãƒ¬ã‚³ãƒ¼ãƒ‰æ›´æ–°
+		}
+		else
+		{
+			isNewRecord = false;//ãƒ¬ã‚³ãƒ¼ãƒ‰æ›´æ–°ç„¡ã—
 		}
 
-		//ŠÔØ‚ê‚È‚çƒŠƒUƒ‹ƒg‚Ö
+		//æ™‚é–“åˆ‡ã‚Œãªã‚‰ãƒªã‚¶ãƒ«ãƒˆã¸
 		return eSceneType::E_RESULT;
 	}
 
-	//Œ‹‰Ê•\¦’†‚È‚çƒ^ƒCƒ}[‚¾‚¯i‚ß‚é
+	//çµæœè¡¨ç¤ºä¸­ãªã‚‰ã‚¿ã‚¤ãƒãƒ¼ã ã‘é€²ã‚ã‚‹
 	if (showResult)
 	{
 		resultTimer++;
 
-		//60ƒtƒŒ[ƒ€(0.3•b)•\¦‚µ‚½‚çŸ‚Ö
+		//60ãƒ•ãƒ¬ãƒ¼ãƒ (0.3ç§’)è¡¨ç¤ºã—ãŸã‚‰æ¬¡ã¸
 		if (resultTimer > 18)
 		{
 			showResult = false;
@@ -156,29 +162,29 @@ eSceneType GameMainScene::Update()
 
 			currentIndex++;
 
-			//–â‘è‚ªo‚é‚Æ‚«‚ÌSE
+			//å•é¡ŒãŒå‡ºã‚‹ã¨ãã®SE
 			//PlaySoundMem(seNextQuestion, DX_PLAYTYPE_BACK);
 
 
-			//‘S–âI—¹
+			//å…¨å•çµ‚äº†
 			if (currentIndex >= questionImages.size())
 			{
-				//ƒ^ƒCƒ€ƒ{[ƒiƒXŒ‹‰Ê
+				//ã‚¿ã‚¤ãƒ ãƒœãƒ¼ãƒŠã‚¹çµæœ
 				finalRemainingSeconds = timer / 60;
 				finalScore = correctCount + finalRemainingSeconds * 0.1f;
 
-				// ƒnƒCƒXƒRƒAXV
+				// ãƒã‚¤ã‚¹ã‚³ã‚¢æ›´æ–°
 				if (finalScore > highScore)
 				{
-					highScore = finalScore;//ƒnƒCƒXƒRƒAXV
-					isNewRecord = true;		//ƒŒƒR[ƒhXV
+					highScore = finalScore;//ãƒã‚¤ã‚¹ã‚³ã‚¢æ›´æ–°
+					isNewRecord = true;		//ãƒ¬ã‚³ãƒ¼ãƒ‰æ›´æ–°
 				}
 				else
 				{
-					isNewRecord = false;//ƒŒƒR[ƒhXV–³‚µ
+					isNewRecord = false;//ãƒ¬ã‚³ãƒ¼ãƒ‰æ›´æ–°ç„¡ã—
 				}
 
-				//SE’â~
+				//SEåœæ­¢
 				StopSoundMem(seCorrect);
 				StopSoundMem(seIncorrect);
 
@@ -190,81 +196,81 @@ eSceneType GameMainScene::Update()
 	}
 
 
-// ESCƒL[
+// ESCã‚­ãƒ¼
 	if (CheckHitKey(KEY_INPUT_ESCAPE))
 	{
 		
 	}
 
-	// Startƒ{ƒ^ƒ“
+	// Startãƒœã‚¿ãƒ³
 	if (input->GetButtonDown(PAD_START))
 	{
 		
 	}
 
-	// Xƒ{ƒ^ƒ“
+	// Xãƒœã‚¿ãƒ³
 	if (input->GetButtonDown(PAD_X))
 	{
-		// •K—v‚È‚ç‹@”\‚ğ’Ç‰Á
+		// å¿…è¦ãªã‚‰æ©Ÿèƒ½ã‚’è¿½åŠ 
 	}
 
-	// Yƒ{ƒ^ƒ“
+	// Yãƒœã‚¿ãƒ³
 	if (input->GetButtonDown(PAD_Y))
 	{
-		// •K—v‚È‚ç‹@”\‚ğ’Ç‰Á
+		// å¿…è¦ãªã‚‰æ©Ÿèƒ½ã‚’è¿½åŠ 
 	}
 
 
-	//Aƒ{ƒ^ƒ“‚È‚ç‘I‘ğˆA‚ğ‘I‚Ô
+	//Aãƒœã‚¿ãƒ³ãªã‚‰é¸æŠè‚¢Aã‚’é¸ã¶
 	if (input->GetButtonDown(PAD_A))
 	{
 		selectIndex = 0;
 
-		//³‰ğ‚È‚ç³‰ğ”‚ğƒJƒEƒ“ƒg‚·‚é
+		//æ­£è§£ãªã‚‰æ­£è§£æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆã™ã‚‹
 		if (correctAnswers[currentIndex] == 0)
 		{
 			correctCount++;
 			score += 2;
 			resultImageToShow = AnswerImage;
-			StopSoundMem(seCorrect);                     //SE’â~
-			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //³‰ğSE
+			StopSoundMem(seCorrect);                     //SEåœæ­¢
+			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //æ­£è§£SE
 
 		}
 		else
 		{
 			resultImageToShow = IncorrectImage;
-			StopSoundMem(seCorrect);                     //SE’â~
-			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //•s³‰ğSE
+			StopSoundMem(seCorrect);                     //SEåœæ­¢
+			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //ä¸æ­£è§£SE
 
 		}
 
-		//A‚ÌˆÊ’u‚ÉŒ‹‰Ê‰æ‘œ‚ğ•\¦
+		//Aã®ä½ç½®ã«çµæœç”»åƒã‚’è¡¨ç¤º
 		resultX = choiceAX;
 		resultY = choiceAY;
 
 		showResult = true;
 	}
 
-	//Bƒ{ƒ^ƒ“‚È‚ç‘I‘ğˆB‚ğ‘I‚Ô
+	//Bãƒœã‚¿ãƒ³ãªã‚‰é¸æŠè‚¢Bã‚’é¸ã¶
 	if (input->GetButtonDown(PAD_B))
 	{
 		selectIndex = 1;
 
-		//³‰ğ‚©‚Ç‚¤‚©”»’è
+		//æ­£è§£ã‹ã©ã†ã‹åˆ¤å®š
 		if (correctAnswers[currentIndex] == 1)
 		{
 			correctCount++;
 			score += 2;
 			resultImageToShow = AnswerImage;
-			StopSoundMem(seCorrect);                     //d‚È‚è–h~
-			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //³‰ğSE
+			StopSoundMem(seCorrect);                     //é‡ãªã‚Šé˜²æ­¢
+			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //æ­£è§£SE
 
 		}
 		else
 		{
 			resultImageToShow = IncorrectImage;
-			StopSoundMem(seCorrect);                     //d‚È‚è–h~
-			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //•s³‰ğSE
+			StopSoundMem(seCorrect);                     //é‡ãªã‚Šé˜²æ­¢
+			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //ä¸æ­£è§£SE
 
 		}
 
@@ -278,31 +284,79 @@ eSceneType GameMainScene::Update()
 	return GetNowScene();
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void GameMainScene::Draw() const
 {
-	// currentIndex ‚ª–â‘è”‚ğ’´‚¦‚½‚ç•`‰æ‚µ‚È‚¢
+	// currentIndex ãŒå•é¡Œæ•°ã‚’è¶…ãˆãŸã‚‰æç”»ã—ãªã„
 	if (currentIndex >= questionImages.size())
 		return;
 
-	//”wŒi‰æ‘œ
+	//èƒŒæ™¯ç”»åƒ
 	DrawGraph(0, 0, GameMainBack, TRUE);
 
-	//ƒ^ƒCƒ}[‚Ì•\¦
-	int seconds = timer / 60;
-	DrawFormatString(1020, 7, GetColor(255, 0, 0), "%d •b", seconds);
+	//ã‚¿ã‚¤ãƒãƒ¼ã®è¡¨ç¤º
+	int seconds = timer / 60;//æ®‹ã‚Šæ™‚é–“
+	 int yellow = GetColor(255, 215, 0);//è‰²æŒ‡å®šï¼šé»„è‰²
+	 int red = GetColor(255, 0, 0);		//è‰²æŒ‡å®šï¼šèµ¤
+	 int black = GetColor(0, 0, 0);	//è‰²æŒ‡å®šï¼šé»’
+	float scale = 1.0f;
+
+	int x = 900;
+	int y = 70;
+
+	TCHAR timeText[16];
+	sprintf_s(timeText, TEXT("%02d"), seconds);
+
+	// ğŸ”¥ æ®‹ã‚Š10ç§’ã§æ¼”å‡º
+	if (seconds <= 10)
+	{
+		// æ‹¡å¤§ç¸®å°ã‚¢ãƒ‹ãƒ¡
+		scale = 1.0f + 0.2f * sin(GetNowCount() * 0.2f);
+
+		// ç‚¹æ»…ï¼ˆ20ãƒ•ãƒ¬ãƒ¼ãƒ å‘¨æœŸï¼‰
+		if ((GetNowCount() / 90) % 2 == 0)
+		{
+			// ===== é»’ãƒ•ãƒï¼ˆ8æ–¹å‘ï¼‰ =====
+			DrawFormatStringToHandle(x - 2, y, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x + 2, y, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x, y - 2, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x, y + 2, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x - 2, y - 2, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x + 2, y - 2, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x - 2, y + 2, black, timerFont, TEXT("%02d"), seconds);
+			DrawFormatStringToHandle(x + 2, y + 2, black, timerFont, TEXT("%02d"), seconds);
+
+			// ===== æœ¬ä½“ =====
+			DrawFormatStringToHandle(x, y, red, timerFont, TEXT("%02d"), seconds);
+		}
+	}
+	else
+	{
+		// ===== é»’ãƒ•ãƒ =====
+		DrawFormatStringToHandle(x - 2, y, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x + 2, y, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x, y - 2, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x, y + 2, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x - 2, y - 2, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x + 2, y - 2, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x - 2, y + 2, black, timerFont, TEXT("%02d"), seconds);
+		DrawFormatStringToHandle(x + 2, y + 2, black, timerFont, TEXT("%02d"), seconds);
+
+		// ===== æœ¬ä½“ =====
+		DrawFormatStringToHandle(x, y, yellow, timerFont, TEXT("%02d"), seconds);
+	}
 
 	/*if (currentIndex >= questionImages.size()) return;*/
-		//–â‘è‰æ‘œ
+		//å•é¡Œç”»åƒ
 		DrawGraph(525, 65, questionImages[currentIndex], TRUE);
 
-		//–â‘è•¶‰æ‘œ
+		//å•é¡Œæ–‡ç”»åƒ
 		DrawGraph(190, 250, questImages[currentIndex], TRUE);
 
-		//‘I‘ğˆ‰æ‘œA
+		//é¸æŠè‚¢ç”»åƒA
 		DrawGraph(395, 582, choiceAImages[currentIndex], TRUE);
 
-		//‘I‘ğˆ‰æ‘œB
+		//é¸æŠè‚¢ç”»åƒB
 		DrawGraph(875, 583, choiceBImages[currentIndex], TRUE);
 
 		if (showResult)
@@ -311,31 +365,31 @@ void GameMainScene::Draw() const
 		}
 }
 
-//ÅIƒXƒRƒAŠi”[
+//æœ€çµ‚ã‚¹ã‚³ã‚¢æ ¼ç´
 float GameMainScene::GetFinalScore()
 {
 	return finalScore;
 }
 
-//ÅIŠÔŠi”[
+//æœ€çµ‚æ™‚é–“æ ¼ç´
 int GameMainScene::GetFinalRemainingSeconds()
 {
 	return finalRemainingSeconds;
 }
 
-//Å‚ƒXƒRƒAŠi”[
+//æœ€é«˜ã‚¹ã‚³ã‚¢æ ¼ç´
 float GameMainScene::GetHighScore()
 {
 	return highScore;
 }
 
-//ƒjƒ…[ƒŒƒR[ƒhƒXƒRƒAŠi”[
+//ãƒ‹ãƒ¥ãƒ¼ãƒ¬ã‚³ãƒ¼ãƒ‰ã‚¹ã‚³ã‚¢æ ¼ç´
 bool GameMainScene::IsNewRecord()
 {
 	return isNewRecord;
 }
 
-//I—¹ˆ—
+//çµ‚äº†æ™‚å‡¦ç†
 void GameMainScene::Finalize()
 {
 	DeleteSoundMem(gameBGM);
