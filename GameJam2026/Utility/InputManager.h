@@ -8,6 +8,8 @@
 #define PAD_A       (0)   // Aボタン
 #define PAD_B       (1)   // Bボタン
 #define PAD_X       (2)   // Xボタン
+#define PAD_Y       (3)
+#define PAD_START   (4) 
 
 // 十字キー
 #define D_PAD_UP    (12)

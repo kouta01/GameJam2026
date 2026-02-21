@@ -13,6 +13,9 @@ private:
     int scoreTitle;    //スコア名
     int bgm;           // リザルトBGM
     int se;            // 決定音などの効果音
+    int resultTimer;   //経過フレーム
+    int resultPhase;   //表示段階
+    float displayScore; //演出用スコア
 
     // 表示するスコア情報
     int score;       // スコア
