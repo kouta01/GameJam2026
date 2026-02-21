@@ -287,7 +287,7 @@ void GameMainScene::Draw() const
 
 	/*if (currentIndex >= questionImages.size()) return;*/
 		//–â‘è‰æ‘œ
-		DrawGraph(525, 68, questionImages[currentIndex], TRUE);
+		DrawGraph(525, 65, questionImages[currentIndex], TRUE);
 
 		//–â‘è•¶‰æ‘œ
 		DrawGraph(190, 250, questImages[currentIndex], TRUE);

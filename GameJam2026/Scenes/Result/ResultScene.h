@@ -10,6 +10,7 @@ private:
     int background;    // リザルト背景画像
     int resultTitle;   //リザルト名
     int correctTitle;  //正答数名
+    int Remainingtime; //残り時間
     int scoreTitle;    //スコア名
     int bgm;           // リザルトBGM
     int se;            // 決定音などの効果音

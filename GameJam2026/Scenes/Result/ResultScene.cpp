@@ -6,6 +6,7 @@ ResultScene::ResultScene()
     : background(-1)
     ,resultTitle(0)
     ,correctTitle(0)
+    ,Remainingtime(0)
     ,scoreTitle(0)
     ,bgm(-1)
     ,se(-1)
@@ -32,6 +33,7 @@ void ResultScene::Initialize()
     resultTitle = LoadGraph("Resource/Image/ResultTitle.png");
     correctTitle = LoadGraph("Resource/Image/Result1.png");
     scoreTitle = LoadGraph("Resource/Image/Result2.png");
+    Remainingtime =LoadGraph("Resource/Image/Result3.png");
     bgm = LoadSoundMem("Resource/sound/result_bgm.mp3");
     se = LoadSoundMem("Resource/sound/se.wav");
 
@@ -39,6 +41,7 @@ void ResultScene::Initialize()
     if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
     if (resultTitle == -1) MessageBox(NULL, "ResultTitle.pngがありません", "Error", MB_OK);
     if (correctTitle == -1) MessageBox(NULL, "correctTitle.pngがありません", "Error", MB_OK);
+    if(Remainingtime == -1) MessageBox(NULL, "Remainingtime.pngがありません", "Error", MB_OK);
     if (scoreTitle == -1) MessageBox(NULL, "sscoreTitle.pngがありません", "Error", MB_OK);
     if (bgm == -1)        MessageBox(NULL, "BGMがありません", "Error", MB_OK);
 
@@ -101,9 +104,11 @@ void ResultScene::Draw() const
     //タイトル名
     DrawGraph(0, 0, resultTitle, TRUE);
     //正答数名
-    DrawGraph(180, 180, correctTitle, TRUE);
+    DrawGraph(180, 166, correctTitle, TRUE);
+    //残り時間
+    DrawGraph(180, 339, Remainingtime, TRUE);
     //スコア名
-    DrawGraph(180, 350, scoreTitle, TRUE);
+    DrawGraph(180, 485, scoreTitle, TRUE);
 
     //// 結果表示用のボックス
     //DrawBox(150, 150, 490, 330, GetColor(200, 100, 0), TRUE);
@@ -137,6 +142,9 @@ void ResultScene::Finalize()
     // 読み込んだ画像・音声データを解放
     DeleteGraph(background);
     DeleteGraph(resultTitle);
+    DeleteGraph(correctTitle);
+    DeleteGraph(scoreTitle);
+    DeleteGraph(Remainingtime);
     DeleteSoundMem(bgm);
     DeleteSoundMem(se);
 }
