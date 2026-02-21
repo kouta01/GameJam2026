@@ -11,6 +11,8 @@ float GameMainScene::finalScore = 0.0f;
 int GameMainScene::finalRemainingSeconds = 0;
 //最高スコア初期化処理
 float GameMainScene::highScore = 0.0f;
+//ニューレコード初期化処理
+bool GameMainScene::isNewRecord = false;
 
 GameMainScene::GameMainScene()
 	:GameMainBack(0)
@@ -168,7 +170,12 @@ eSceneType GameMainScene::Update()
 				// ハイスコア更新
 				if (finalScore > highScore)
 				{
-					highScore = finalScore;
+					highScore = finalScore;//ハイスコア更新
+					isNewRecord = true;		//レコード更新
+				}
+				else
+				{
+					isNewRecord = false;//レコード更新無し
 				}
 
 				//SE停止
@@ -320,6 +327,12 @@ int GameMainScene::GetFinalRemainingSeconds()
 float GameMainScene::GetHighScore()
 {
 	return highScore;
+}
+
+//ニューレコードスコア格納
+bool GameMainScene::IsNewRecord()
+{
+	return isNewRecord;
 }
 
 //終了時処理

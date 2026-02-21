@@ -16,7 +16,10 @@ private:
     int se;            // 決定音などの効果音
     int resultTimer;   //経過フレーム
     int resultPhase;   //表示段階
+    int newSe;          //正解SE
+    int backSe;         //リザルトBボタンSE
     float displayScore; //演出用スコア
+    bool isEndSePlayed;  //終了SEを鳴らしたかどうか
 
     // 表示するスコア情報
     int score;       // スコア

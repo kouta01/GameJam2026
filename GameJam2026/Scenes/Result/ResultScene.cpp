@@ -11,8 +11,9 @@ ResultScene::ResultScene()
     ,bgm(-1)
     ,se(-1)
     ,resultTimer(0)
-    ,resultPhase(0)
+    ,resultPhase(-1)
     ,displayScore(0.0f)
+    ,isEndSePlayed(false)
 {
     // メンバ変数の初期化
 }
@@ -29,24 +30,24 @@ void ResultScene::Initialize()
 
 
     // リザルト画面の背景画像・BGM・効果音を読み込み
-    background = LoadGraph("Resource/images/result.png");
+    //background = LoadGraph("Resource/images/result.png");
     resultTitle = LoadGraph("Resource/Image/Result.png");
     correctTitle = LoadGraph("Resource/Image/Result1.png");
     scoreTitle = LoadGraph("Resource/Image/Result2.png");
     Remainingtime =LoadGraph("Resource/Image/Result3.png");
     bgm = LoadSoundMem("Resource/sound/result_bgm.mp3");
     se = LoadSoundMem("Resource/sound/se.wav");
+    newSe = LoadSoundMem("Resource/Sounds/score.mp3");
+    backSe = LoadSoundMem("Resource/Sounds/kuizuend.mp3");
 
     // 読み込み失敗チェック
-    if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
+    //if (background == -1) MessageBox(NULL, "result.pngがありません", "Error", MB_OK);
     if (resultTitle == -1) MessageBox(NULL, "ResultTitle.pngがありません", "Error", MB_OK);
     if (correctTitle == -1) MessageBox(NULL, "correctTitle.pngがありません", "Error", MB_OK);
     if(Remainingtime == -1) MessageBox(NULL, "Remainingtime.pngがありません", "Error", MB_OK);
     if (scoreTitle == -1) MessageBox(NULL, "sscoreTitle.pngがありません", "Error", MB_OK);
     if (bgm == -1)        MessageBox(NULL, "BGMがありません", "Error", MB_OK);
 
-    // BGMをループ再生
-    PlaySoundMem(bgm, DX_PLAYTYPE_LOOP);
 }
 
 eSceneType ResultScene::Update()
@@ -64,9 +65,14 @@ eSceneType ResultScene::Update()
         {
                 resultPhase++;
                 resultTimer = 0;
+
+                //SEを鳴らす
+                PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
+
         }
     }
 
+    
     //スコア表示タイミグでカウントアップ演出をはさむ
     if (resultPhase == 2)
     {
@@ -81,10 +87,18 @@ eSceneType ResultScene::Update()
         }
         else
         {
+
             resultPhase = 3;
+            PlaySoundMem(newSe, DX_PLAYTYPE_BACK);
+            
         }
     }
-
+    // 「Bボタンでタイトルへ」が表示される段階
+    if (resultPhase >= 3 && !isEndSePlayed)
+    {
+        PlaySoundMem(backSe, DX_PLAYTYPE_BACK);  // 音を鳴らす
+        isEndSePlayed = true;                   // 鳴らした記録を残す
+    }
     // Bボタンが押された瞬間を検出
     if (input->GetButtonDown(PAD_B))
     {
@@ -115,25 +129,33 @@ void ResultScene::Draw() const
 
     if (resultPhase >= 0)//正答数の表示
     {
-        DrawFormatString(710, 180, 0xffffff, "%d", correct);
+        DrawFormatString(610, 180, 0xffffff, "%d", correct);
 
     }
 
     if (resultPhase >= 1)//残り時間
     {
-        DrawFormatString(690, 350, 0xffffff, "%d", 
+        DrawFormatString(590, 350, 0xffffff, "%d", 
          GameMainScene::GetFinalRemainingSeconds());
     }
 
     if (resultPhase >= 2) //スコアの表示
     {
-        DrawFormatString(660, 500, 0xffffff, "%.1f", 
+        DrawFormatString(550, 500, 0xffffff, "%.1f", 
          displayScore);
     }
 
     if (resultPhase >= 3)
     {
+        if (GameMainScene::IsNewRecord())
+        {
+            if ((GetNowCount() / 500) % 2 == 0)
+            {
+                DrawString(760, 500, "NEW RECORD!", 0xffd700);
+            }
+        }
         DrawString(250, 610, "Bボタンでタイトルへ", 0xdc143c);
+    
     }
 }
 
@@ -147,4 +169,7 @@ void ResultScene::Finalize()
     DeleteGraph(Remainingtime);
     DeleteSoundMem(bgm);
     DeleteSoundMem(se);
+    DeleteSoundMem(newSe);
+    DeleteSoundMem(backSe);
+    
 }
