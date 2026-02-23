@@ -126,6 +126,19 @@ eSceneType GameMainScene::Update()
 {
 	InputManager* input = InputManager::GetInstance();
 
+	// 終了演出中
+	if (isEnding)
+	{
+		endingTimer++;
+
+		if (endingTimer > 120) // 2秒表示（60fps想定）
+		{
+			return eSceneType::E_RESULT;
+		}
+
+		return GetNowScene();
+	}
+
 	timer--;
 	if (timer <= 0)
 	{
@@ -145,8 +158,14 @@ eSceneType GameMainScene::Update()
 			isNewRecord = false;//レコード更新無し
 		}
 
-		//時間切れならリザルトへ
-		return eSceneType::E_RESULT;
+		//時間切れなら演出からリザルトへ
+		if (!isEnding)
+		{
+			isEnding = true;
+			endingType = 1;//TIMEOUT
+			endingTimer = 0;
+		}
+		return GetNowScene();
 	}
 
 	//結果表示中ならタイマーだけ進める
@@ -188,12 +207,19 @@ eSceneType GameMainScene::Update()
 				StopSoundMem(seCorrect);
 				StopSoundMem(seIncorrect);
 
-				return eSceneType::E_RESULT;
+				if (!isEnding)//FINISHの文字を出す
+				{
+					isEnding = true;
+					endingType = 2;//FINISH
+					endingTimer = 0;
+				}
+				return GetNowScene();
 			}
+			
 		}
-
 		return GetNowScene();
 	}
+
 
 
 // ESCキー
@@ -288,8 +314,8 @@ eSceneType GameMainScene::Update()
 void GameMainScene::Draw() const
 {
 	// currentIndex が問題数を超えたら描画しない
-	if (currentIndex >= questionImages.size())
-		return;
+	//if (currentIndex >= questionImages.size())
+		//return;
 
 	//背景画像
 	DrawGraph(0, 0, GameMainBack, TRUE);
@@ -346,7 +372,8 @@ void GameMainScene::Draw() const
 		DrawFormatStringToHandle(x, y, yellow, timerFont, TEXT("%02d"), seconds);
 	}
 
-	/*if (currentIndex >= questionImages.size()) return;*/
+	if (currentIndex < questionImages.size())
+	{
 		//問題画像
 		DrawGraph(525, 65, questionImages[currentIndex], TRUE);
 
@@ -358,10 +385,33 @@ void GameMainScene::Draw() const
 
 		//選択肢画像B
 		DrawGraph(875, 583, choiceBImages[currentIndex], TRUE);
+	}
 
 		if (showResult)
 		{
 			DrawGraph(resultX, resultY, resultImageToShow, TRUE);
+		}
+
+		if (isEnding)//終了演出
+		{
+			int red = GetColor(255, 0, 0);
+			int black = GetColor(0, 0, 0);
+
+			const TCHAR* text = TEXT("");
+
+			if (endingType == 1)
+				text = TEXT("TIME OUT");
+			else if (endingType == 2)
+				text = TEXT("FINISH");
+
+			// 黒フチ
+			DrawString(500 - 2, 300, text, black);
+			DrawString(500 + 2, 300, text, black);
+			DrawString(500, 300 - 2, text, black);
+			DrawString(500, 300 + 2, text, black);
+
+			// 本体
+			DrawString(500, 300, text, red);
 		}
 }
 

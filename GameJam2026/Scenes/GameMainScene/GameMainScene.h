@@ -26,6 +26,9 @@ private:
 	static float highScore;			 //タイトル用スコア
 	static bool isNewRecord;		 //ニューレコード用スコア
 	int timerFont;					 //コードによるフォント作製
+	bool isEnding = false;			//終了演出
+	int endingTimer = 0;			//演出カウント
+	int endingType = 0;
 	std::vector<int> questionImages; //問題画像
 	std::vector<int> questImages;    //問題文画像
 	std::vector<int> choiceAImages;  //選択肢画像(A)
