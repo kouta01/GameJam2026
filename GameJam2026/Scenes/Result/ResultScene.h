@@ -20,6 +20,8 @@ private:
     int backSe;         //リザルトBボタンSE
     float displayScore; //演出用スコア
     bool isEndSePlayed;  //終了SEを鳴らしたかどうか
+    int resultFont;     //リザルト用フォント
+    int bigFont;        //黒淵用フォント
 
     // 表示するスコア情報
     int score;       // スコア

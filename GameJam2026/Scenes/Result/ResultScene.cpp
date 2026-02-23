@@ -18,6 +18,31 @@ ResultScene::ResultScene()
     // メンバ変数の初期化
 }
 
+void DrawNumberWithOutline(int x, int y, int color, int font, const TCHAR* format, ...)
+{
+    TCHAR buffer[256];
+
+    va_list args;
+    va_start(args, format);
+    vsprintf_s(buffer, format, args);
+    va_end(args);
+
+    int black = GetColor(0, 0, 0);
+
+    // 黒フチ（8方向）
+    DrawStringToHandle(x - 2, y, buffer, black, font);
+    DrawStringToHandle(x + 2, y, buffer, black, font);
+    DrawStringToHandle(x, y - 2, buffer, black, font);
+    DrawStringToHandle(x, y + 2, buffer, black, font);
+    DrawStringToHandle(x - 2, y - 2, buffer, black, font);
+    DrawStringToHandle(x + 2, y - 2, buffer, black, font);
+    DrawStringToHandle(x - 2, y + 2, buffer, black, font);
+    DrawStringToHandle(x + 2, y + 2, buffer, black, font);
+
+    // 本体
+    DrawStringToHandle(x, y, buffer, color, font);
+}
+
 void ResultScene::SetResult(int correctCount, int scoreValue)
 {
     correct = correctCount;
@@ -48,6 +73,8 @@ void ResultScene::Initialize()
     if (scoreTitle == -1) MessageBox(NULL, "sscoreTitle.pngがありません", "Error", MB_OK);
     if (bgm == -1)        MessageBox(NULL, "BGMがありません", "Error", MB_OK);
 
+    resultFont = CreateFontToHandle("BIZ UDPゴシック", 48, 7);
+    bigFont = CreateFontToHandle("BIZ UDPゴシック", 72, 9);
 }
 
 eSceneType ResultScene::Update()
@@ -129,22 +156,29 @@ void ResultScene::Draw() const
     //// 結果表示用のボックス
     //DrawBox(150, 150, 490, 330, GetColor(200, 100, 0), TRUE);
 
-    if (resultPhase >= 0)//正答数の表示
+   //正答数の表示
+    if (resultPhase >= 0)
     {
-        DrawFormatString(590, 180, 0xffffff, "%d", correct);
-
+        DrawNumberWithOutline(590, 180, GetColor(255, 255, 255),
+            bigFont, TEXT("%d"), correct);
     }
 
-    if (resultPhase >= 1)//残り時間
+    //残り時間
+    if (resultPhase >= 1)
     {
-        DrawFormatString(590, 360, 0xffffff, "%d", 
-         GameMainScene::GetFinalRemainingSeconds());
+        DrawNumberWithOutline(580, 350, GetColor(255, 255, 255),
+            bigFont, TEXT("%d"),
+            GameMainScene::GetFinalRemainingSeconds());
     }
 
-    if (resultPhase >= 2) //スコアの表示
+    //スコアの表示
+    if (resultPhase >= 2)
     {
-        DrawFormatString(550, 500, 0xffffff, "%.1f", 
-         displayScore);
+        DrawNumberWithOutline(560, 500,
+            GetColor(255, 255, 255),
+            bigFont,
+            TEXT("%.1f"),
+            displayScore);
     }
 
     if (resultPhase >= 3)
@@ -153,17 +187,21 @@ void ResultScene::Draw() const
         {
             if ((GetNowCount() / 500) % 2 == 0)
             {
-                DrawString(760, 500, "NEW RECORD!", 0xffd700);
+                DrawNumberWithOutline(760, 500,
+                    GetColor(255, 215, 0),
+                    resultFont,
+                    TEXT("NEW RECORD!"));
             }
         }
-        DrawString(250, 610, "Bボタンでタイトルへ", 0xdc143c);
+        DrawNumberWithOutline(330, 610, 0xdc143c, bigFont,
+            TEXT("Bボタンでタイトルへ"));
     
     }
 }
 
 void ResultScene::Finalize()
 {
-    // 読み込んだ画像・音声データを解放
+    // 読み込んだ画像・音声データ・フォントを解放
     DeleteGraph(background);
     DeleteGraph(resultTitle);
     DeleteGraph(correctTitle);
@@ -173,5 +211,7 @@ void ResultScene::Finalize()
     DeleteSoundMem(se);
     DeleteSoundMem(newSe);
     DeleteSoundMem(backSe);
+    DeleteFontToHandle(resultFont);
+    DeleteFontToHandle(bigFont);
     
 }

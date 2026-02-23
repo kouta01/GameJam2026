@@ -36,7 +36,7 @@ void HelpScene::Draw() const
     // ヘルプ画面の説明テキストを表示
     /*SetFontSize(110);*/
     /*DrawString(300, 150, "=== HELP ===", 0xffffff);*/
-    DrawStringToHandle(300, 150, "=== HELP ===", yellow, HelpTitle);
+    DrawStringToHandle(180, 90, "=== HELP ===", yellow, HelpTitle);
 
     /*SetFontSize(50);*/
     /*DrawString(400, 260, "ゲーム説明", 0xffffff);*/
