@@ -19,7 +19,7 @@ void TitleScene::Initialize()
 {
 	//‰æ‘œ“Ç‚İ‚İ
 
-	title_image = LoadGraph("Resource/Image/Title.png");
+	title_image = LoadGraph("Resource/Image/QuizTitle.png");
 	
 	//menu_image = LoadGraph("");
 	//cursor_image=LoadGraph("");

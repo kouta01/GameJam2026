@@ -1,19 +1,23 @@
 #pragma once
 #include "../../Scenes/SceneBase.h"
 
+// ヘルプ画面を管理するシーンクラス
 class HelpScene : public SceneBase
 {
+private:
+    int background;  // ヘルプ画面の背景画像ハンドル
+
 public:
-    HelpScene() {}
-    ~HelpScene() {}
+    HelpScene();     // コンストラクタ
+    ~HelpScene();    // デストラクタ
 
-    void Initialize() override {}   // ヘルプ画面は特に初期化なし
-    void Finalize() override {}     // 終了処理も特になし
+    void Initialize() override;   // 画像読み込みなどの初期化処理
+    void Finalize() override;     // リソース解放処理
 
-    eSceneType Update() override;   // 入力受付（戻るボタン）
-    void Draw() const override;     // ヘルプ内容の描画
+    eSceneType Update() override; // 入力処理・シーン遷移
+    void Draw() const override;   // 背景・テキスト描画
 
-    // このシーンが HELP であることを返す
+    // 現在のシーン種別を返す
     eSceneType GetNowScene() const override
     {
         return eSceneType::E_HELP;
