@@ -44,6 +44,8 @@ void TitleScene::Initialize()
 		throw("Resource/Sounds/TitleBGM.mp3がありません\n");
 	}
 
+	TitleFont1 = CreateFontToHandle("BIZ UDPゴシック", 60, 10, DX_FONTTYPE_EDGE, -1, -1, FALSE, GetColor(0, 0, 0));
+
 }
 
 eSceneType TitleScene::Update()
@@ -118,6 +120,8 @@ eSceneType TitleScene::Update()
 //描画処理
 void TitleScene::Draw()const
 {
+	unsigned int yellow = GetColor(255, 255, 0);
+
 	//タイトル画像の描画
 	DrawGraph(0, 0, title_image, TRUE);
 
@@ -125,15 +129,17 @@ void TitleScene::Draw()const
 	DrawGraph(120, 200, menu_image, TRUE);
 
 	//操作ログ
-	SetFontSize(30);
-	DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで終了",0x000000);
+	/*SetFontSize(30);*/
+	/*DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで終了",0x000000);*/
+	DrawStringToHandle(350, 400, "Aボタンでゲーム開始 \nBボタンでヘルプ画面 \nStartボタンで終了", yellow, TitleFont1);
+
 	//素材ログ
 	SetFontSize(20);
 	//DrawString()
 
 	//タイトルネーム
-	SetFontSize(100);
-	DrawString(150, 20, "Quiz", 0x000000);
+	/*SetFontSize(100);
+	DrawString(150, 20, "Quiz", 0x000000);*/
 
 	SetFontSize(80);
 	//ハイスコア表示

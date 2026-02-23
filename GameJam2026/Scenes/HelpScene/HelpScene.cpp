@@ -34,15 +34,15 @@ void HelpScene::Draw() const
     unsigned int yellow = GetColor(255, 255, 0);
 
     // ヘルプ画面の説明テキストを表示
-    SetFontSize(110);
+    /*SetFontSize(110);*/
     /*DrawString(300, 150, "=== HELP ===", 0xffffff);*/
     DrawStringToHandle(300, 150, "=== HELP ===", yellow, HelpTitle);
 
-    SetFontSize(50);
+    /*SetFontSize(50);*/
     /*DrawString(400, 260, "ゲーム説明", 0xffffff);*/
     DrawStringToHandle(400, 260, "ゲーム説明", yellow, HelpFont1);
 
-    SetFontSize(30);
+    /*SetFontSize(30);*/
     /*DrawString(400, 340, "このゲームは2択クイズです。", 0xffffff);*/
     DrawStringToHandle(400, 340, "このゲームは2択クイズです。", yellow, HelpFont2);
     /*DrawString(400, 390, "正しいと思うボタンを押してください。", 0xffffff);*/

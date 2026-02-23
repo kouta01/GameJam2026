@@ -14,6 +14,7 @@ private:
 	int titlebgm;              //タイトル画面のBGM
 	int selectbgm;             //カーソル移動のSE
 	int decisionbgm;           //決定時のSE
+	int TitleFont1;
 
 	//int nextScene;      // 次に行くシーン
 	//int changeTimer;    // 遷移待ちタイマー
