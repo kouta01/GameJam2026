@@ -31,18 +31,26 @@ void HelpScene::Draw() const
     //背景描画
     DrawGraph(0, 0, background, TRUE);
 
+    unsigned int yellow = GetColor(255, 255, 0);
+
     // ヘルプ画面の説明テキストを表示
     SetFontSize(110);
-    DrawString(300, 150, "=== HELP ===", 0xffffff);
+    /*DrawString(300, 150, "=== HELP ===", 0xffffff);*/
+    DrawStringToHandle(300, 150, "=== HELP ===", yellow, HelpTitle);
 
     SetFontSize(50);
-    DrawString(400, 260, "ゲーム説明", 0xffffff);
+    /*DrawString(400, 260, "ゲーム説明", 0xffffff);*/
+    DrawStringToHandle(400, 260, "ゲーム説明", yellow, HelpFont1);
 
     SetFontSize(30);
-    DrawString(400, 340, "このゲームは2択クイズです。", 0xffffff);
-    DrawString(400, 390, "正しいと思うボタンを押してください。", 0xffffff);
-    DrawString(400, 440, "全10問の正解数で結果が決まります。", 0xffffff);
-    DrawString(400, 670, "AボタンでTITLE", 0xffffff);
+    /*DrawString(400, 340, "このゲームは2択クイズです。", 0xffffff);*/
+    DrawStringToHandle(400, 340, "このゲームは2択クイズです。", yellow, HelpFont2);
+    /*DrawString(400, 390, "正しいと思うボタンを押してください。", 0xffffff);*/
+    DrawStringToHandle(400, 390, "正しいと思うボタンを押してください。", yellow, HelpFont2);
+    /*DrawString(400, 440, "全10問の正解数で結果が決まります。", 0xffffff);*/
+    DrawStringToHandle(400, 440, "全10問の正解数で結果が決まります。", yellow, HelpFont2);
+    /*DrawString(400, 670, "AボタンでTITLE", 0xffffff);*/
+    DrawStringToHandle(400, 670, "AボタンでTITLE", yellow, HelpFont2);
 }
 
 void HelpScene::Initialize()
@@ -54,6 +62,10 @@ void HelpScene::Initialize()
     {
         throw("Resource/Image/QuizHelp_bg.png がありません\n");
     }
+
+    HelpTitle = CreateFontToHandle("BIZ UDPゴシック", 110, 10, DX_FONTTYPE_EDGE, -1, -1, FALSE, GetColor(0,0,0));
+    HelpFont1 = CreateFontToHandle("BIZ UDPゴシック", 50, 10, DX_FONTTYPE_EDGE, -1, -1, FALSE, GetColor(0, 0, 0));
+    HelpFont2 = CreateFontToHandle("BIZ UDPゴシック", 30, 10, DX_FONTTYPE_EDGE, -1, -1, FALSE, GetColor(0, 0, 0));
 }
 
 void HelpScene::Finalize()

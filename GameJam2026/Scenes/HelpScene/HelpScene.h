@@ -6,6 +6,9 @@ class HelpScene : public SceneBase
 {
 private:
     int background;  // ヘルプ画面の背景画像ハンドル
+    int HelpTitle;
+    int HelpFont1;
+    int HelpFont2;
 
 public:
     HelpScene();     // コンストラクタ
