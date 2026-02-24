@@ -138,12 +138,12 @@ void TitleScene::Draw()const
 	//DrawString()
 
 	//タイトルネーム
-	/*SetFontSize(100);
-	DrawString(150, 20, "Quiz", 0x000000);*/
-
 	SetFontSize(80);
+	DrawString(400, 220, "Speed Test", 0xffa500);
+
+	SetFontSize(50);
 	//ハイスコア表示
-	DrawFormatString(550, 10, 0xffffff, "HIGH SCORE : %.1f",
+	DrawFormatString(420, 10, 0xffffff, "HIGH SCORE : %.1f",
 		GameMainScene::GetHighScore());
 
 }

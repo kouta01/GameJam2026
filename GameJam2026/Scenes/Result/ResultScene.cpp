@@ -10,6 +10,7 @@ ResultScene::ResultScene()
     ,scoreTitle(0)
     ,bgm(0)
     ,se(-1)
+    ,selectbgm(-1)
     ,resultTimer(0)
     ,resultPhase(-1)
     ,displayScore(0.0f)
@@ -62,6 +63,7 @@ void ResultScene::Initialize()
     Remainingtime =LoadGraph("Resource/Image/Result3.png");
     bgm = LoadSoundMem("Resource/Sounds/nc260619.mp3");
     se = LoadSoundMem("Resource/sound/se.wav");
+    selectbgm = LoadSoundMem("Resource/Sounds/maou_se_system27.mp3");
     newSe = LoadSoundMem("Resource/Sounds/score.mp3");
     backSe = LoadSoundMem("Resource/Sounds/kuizuend.mp3");
 
@@ -131,6 +133,10 @@ eSceneType ResultScene::Update()
     // Bボタンが押された瞬間を検出
     if (input->GetButtonDown(PAD_B))
     {
+        if (CheckSoundMem(selectbgm) != TRUE)
+        {
+            PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+        }
         // タイトルシーンへ遷移する
         return eSceneType::E_TITLE;
     }
@@ -181,6 +187,7 @@ void ResultScene::Draw() const
             displayScore);
     }
 
+    //新記録なら表示する
     if (resultPhase >= 3)
     {
         if (GameMainScene::IsNewRecord())
@@ -209,6 +216,7 @@ void ResultScene::Finalize()
     DeleteGraph(Remainingtime);
     DeleteSoundMem(bgm);
     DeleteSoundMem(se);
+    //DeleteSoundMem(selectbgm);
     DeleteSoundMem(newSe);
     DeleteSoundMem(backSe);
     DeleteFontToHandle(resultFont);

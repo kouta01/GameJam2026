@@ -9,6 +9,7 @@ private:
     int HelpTitle;
     int HelpFont1;
     int HelpFont2;
+    int selectbgm;
 
 public:
     HelpScene();     // コンストラクタ
