@@ -19,6 +19,10 @@ eSceneType HelpScene::Update()
     // Aボタンが押されたらタイトルへ戻る
     if (input->GetButtonDown(PAD_A))
     {
+        if (CheckSoundMem(selectbgm) != TRUE)
+        {
+            PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
+        }
         return eSceneType::E_TITLE;
     }
 
@@ -55,6 +59,7 @@ void HelpScene::Draw() const
 
 void HelpScene::Initialize()
 {
+    selectbgm = LoadSoundMem("Resource/Sounds/maou_se_system27.mp3");
     //ヘルプ画面の背景画像を読み込む
     background = LoadGraph("Resource/Image/QuizHelp.png");
 
