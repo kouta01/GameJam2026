@@ -292,8 +292,6 @@ eSceneType GameMainScene::Update()
 	if (input->GetButtonDown(PAD_START))
 	{
 		// エラーチェック用
-		// ポーズ機能などを追加可能
-		// printfDx("Startボタンが押されました\n");
 	}
 
 	// ----------------------------

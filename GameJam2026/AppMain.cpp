@@ -2,6 +2,7 @@
 #include "Scenes/TitleScene/TitleScene.h"
 #include "Scenes/SceneManager.h"
 
+//メイン関数(プログラムはここから始まります。)
 int WINAPI WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE hPrevInstance, _In_
 	LPSTR lpCmdine, _In_ int nShowCmd)
 {
