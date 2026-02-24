@@ -187,6 +187,7 @@ void ResultScene::Draw() const
             displayScore);
     }
 
+    //V‹L˜^‚È‚ç•\Ž¦‚·‚é
     if (resultPhase >= 3)
     {
         if (GameMainScene::IsNewRecord())
