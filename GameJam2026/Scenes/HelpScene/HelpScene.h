@@ -1,27 +1,50 @@
 #pragma once
 #include "../../Scenes/SceneBase.h"
 
-// ヘルプ画面を管理するシーンクラス
+//----------------------------------------
+// HelpScene
+// ・ヘルプ画面を管理するシーンクラス
+// ・背景画像、説明テキスト、フォントなどを描画
+//----------------------------------------
 class HelpScene : public SceneBase
 {
 private:
-    int background;  // ヘルプ画面の背景画像ハンドル
-    int HelpTitle;
-    int HelpFont1;
-    int HelpFont2;
-    int selectbgm;
+    int background;   //ヘルプ画面の背景画像ハンドル
+    int HelpTitle;    //タイトル用フォント
+    int HelpFont1;    //説明文フォント
+    int HelpFont2;    //説明文用フォント
+    int selectbgm;    //決定音（Aボタンで戻る）
 
 public:
-    HelpScene();     // コンストラクタ
-    ~HelpScene();    // デストラクタ
+    HelpScene();      //コンストラクタ
+    ~HelpScene();     //デストラクタ
 
-    void Initialize() override;   // 画像読み込みなどの初期化処理
-    void Finalize() override;     // リソース解放処理
+    //----------------------------------------
+    // 初期化処理（画像・フォント・SE の読み込み）
+    //----------------------------------------
+    void Initialize() override;
 
-    eSceneType Update() override; // 入力処理・シーン遷移
-    void Draw() const override;   // 背景・テキスト描画
+    //----------------------------------------
+    // 終了処理（リソース解放）
+    //----------------------------------------
+    void Finalize() override;
 
+    //----------------------------------------
+    // 更新処理
+    // ・Aボタンでタイトルへ戻る
+    //----------------------------------------
+    eSceneType Update() override;
+
+    //----------------------------------------
+    // 描画処理
+    // ・背景画像
+    // ・ヘルプテキスト
+    //----------------------------------------
+    void Draw() const override;
+
+    //----------------------------------------
     // 現在のシーン種別を返す
+    //----------------------------------------
     eSceneType GetNowScene() const override
     {
         return eSceneType::E_HELP;

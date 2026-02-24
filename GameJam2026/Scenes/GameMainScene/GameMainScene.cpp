@@ -50,16 +50,16 @@ void GameMainScene::Initialize()
 	gameBGM = LoadSoundMem("Resource/Sounds/Thinkingtime.mp3");
 	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
 
-	// 警告BGM
+	//警告BGM
 	warningBGM = LoadSoundMem("Resource/Sounds/time2.mp3");
 
-	// 終了SE
+	//終了SE
 	seFinish = LoadSoundMem("Resource/Sounds/fin.mp3");
 
-	// 正解SE
+	//正解SE
 	seCorrect = LoadSoundMem("Resource/Sounds/seikai.mp3");
 
-	// 不正解SE
+	//不正解SE
 	seIncorrect = LoadSoundMem("Resource/Sounds/huseikai.mp3");
 
 	//出題SE
@@ -176,11 +176,11 @@ eSceneType GameMainScene::Update()
 	{
 		timer = 0;  // マイナス防止
 
-		// 最終スコア計算
+		//最終スコア計算
 		finalRemainingSeconds = 0;
 		finalScore = correctCount;
 
-		// ハイスコア更新判定
+		//ハイスコア更新判定
 		if (finalScore > highScore)
 		{
 			highScore = finalScore;
@@ -191,7 +191,7 @@ eSceneType GameMainScene::Update()
 			isNewRecord = false;
 		}
 
-		// 終了演出開始
+		//終了演出開始
 		if (!isEnding)
 		{
 			StopSoundMem(warningBGM);
@@ -226,11 +226,11 @@ eSceneType GameMainScene::Update()
 			// ========================================
 			if (currentIndex >= questionImages.size())
 			{
-				// 最終スコア計算（残り時間ボーナス含む）
+				//最終スコア計算（残り時間ボーナス含む）
 				finalRemainingSeconds = timer / 60;
 				finalScore = correctCount + finalRemainingSeconds * 0.1f;
 
-				// ハイスコア更新判定
+				//ハイスコア更新判定
 				if (finalScore > highScore)
 				{
 					highScore = finalScore;
@@ -241,13 +241,13 @@ eSceneType GameMainScene::Update()
 					isNewRecord = false;
 				}
 
-				// 効果音停止
+				//効果音停止
 				StopSoundMem(warningBGM);
 				StopSoundMem(gameBGM);
 				StopSoundMem(seCorrect);
 				StopSoundMem(seIncorrect);
 
-				// 終了演出開始
+				//終了演出開始
 				if (!isEnding)
 				{
 					PlaySoundMem(seFinish, DX_PLAYTYPE_BACK);
@@ -274,8 +274,8 @@ eSceneType GameMainScene::Update()
 // ----------------------------
 	if (input->GetButtonDown(PAD_X))
 	{
-		// エラーチェック用：押されたことを確認
-		// 必要なら機能を追加できる
+		//エラーチェック用：押されたことを確認
+		//必要なら機能を追加できる
 	}
 
 	// ----------------------------
@@ -283,7 +283,7 @@ eSceneType GameMainScene::Update()
 	// ----------------------------
 	if (input->GetButtonDown(PAD_Y))
 	{
-		// エラーチェック用
+		//エラーチェック用
 	}
 
 	// ----------------------------
@@ -291,7 +291,7 @@ eSceneType GameMainScene::Update()
 	// ----------------------------
 	if (input->GetButtonDown(PAD_START))
 	{
-		// エラーチェック用
+		//エラーチェック用
 	}
 
 	// ----------------------------
@@ -299,7 +299,7 @@ eSceneType GameMainScene::Update()
 	// ----------------------------
 	if (input->GetKeyDown(KEY_INPUT_ESCAPE))
 	{
-		// エラーチェック用
+		//エラーチェック用
 	}
 	// ----------------------------
 	// Aボタン（選択肢A）
@@ -308,11 +308,11 @@ eSceneType GameMainScene::Update()
 	{
 		selectIndex = 0;  // Aを選択
 
-		// 正解判定
+		//正解判定
 		if (correctAnswers[currentIndex] == 0)
 		{
-			correctCount++;          // 正解数加算
-			score += 2;              // スコア加算
+			correctCount++;          //正解数加算
+			score += 2;              //スコア加算
 			resultImageToShow = AnswerImage;
 
 			StopSoundMem(seCorrect);
@@ -326,7 +326,7 @@ eSceneType GameMainScene::Update()
 			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK);
 		}
 
-		// 結果画像表示位置（Aの位置）
+		//結果画像表示位置（Aの位置）
 		resultX = choiceAX;
 		resultY = choiceAY;
 
@@ -365,7 +365,7 @@ eSceneType GameMainScene::Update()
 		showResult = true;
 	}
 
-	// シーン維持
+	//シーン維持
 	return GetNowScene();
 }
 
@@ -395,13 +395,13 @@ void GameMainScene::Draw() const
 	//残り10秒で演出
 	if (seconds <= 10)
 	{
-		// 拡大縮小アニメ
+		//拡大縮小アニメ
 		scale = 1.0f + 0.2f * sin(GetNowCount() * 0.2f);
 
-		// 点滅（20フレーム周期）
+		//点滅（20フレーム周期）
 		if ((GetNowCount() / 90) % 2 == 0)
 		{
-			// ===== 黒フチ（8方向） =====
+			//===== 黒フチ（8方向） =====
 			DrawFormatStringToHandle(x - 2, y, black, timerFont, TEXT("%02d"), seconds);
 			DrawFormatStringToHandle(x + 2, y, black, timerFont, TEXT("%02d"), seconds);
 			DrawFormatStringToHandle(x, y - 2, black, timerFont, TEXT("%02d"), seconds);

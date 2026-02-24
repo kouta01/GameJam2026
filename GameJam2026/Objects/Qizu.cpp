@@ -9,7 +9,7 @@ void Qizu::Initialize()
 {
     current = 0;
 
-    // ³‰ğİ’è
+    //³‰ğİ’è
     int temp[QUESTION_MAX] = { 0,1,0,0,1,0,1,1,1,0 };
 
     for (int i = 0; i < QUESTION_MAX; i++)

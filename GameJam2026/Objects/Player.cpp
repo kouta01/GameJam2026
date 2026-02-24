@@ -1,31 +1,53 @@
 #include "Player.h"
 
-Player::Player() :totalCorrect_(0), totalScore_(0)
+//----------------------------------------
+// Player
+// ・プレイヤーの成績管理クラス
+// ・正解数とスコアを保持する
+//----------------------------------------
+Player::Player()
+    : totalCorrect_(0),   // 正解数
+    totalScore_(0)      // スコア
 {
 }
 
+//----------------------------------------
+// 正解数を 1 増やす
+//----------------------------------------
 void Player::AddCorrent()
 {
-	totalCorrect_++;
+    totalCorrect_++;
 }
 
+//----------------------------------------
+// スコアを加算する
+//----------------------------------------
 void Player::AddScore(int score)
 {
-	totalScore_ += score;
+    totalScore_ += score;
 }
 
+//----------------------------------------
+// 成績をリセット（正解数・スコアを 0 に戻す）
+//----------------------------------------
 void Player::Reset()
 {
-	totalCorrect_ = 0;
-	totalScore_ = 0;
+    totalCorrect_ = 0;
+    totalScore_ = 0;
 }
 
-int Player::GetTotalCorrect() const 
+//----------------------------------------
+// 正解数の取得
+//----------------------------------------
+int Player::GetTotalCorrect() const
 {
-	return totalCorrect_;
+    return totalCorrect_;
 }
 
+//----------------------------------------
+// スコアの取得
+//----------------------------------------
 int Player::GetTotalScore() const
 {
-	return totalScore_;
+    return totalScore_;
 }

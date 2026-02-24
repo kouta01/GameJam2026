@@ -16,7 +16,7 @@ ResultScene::ResultScene()
     ,displayScore(0.0f)
     ,isEndSePlayed(false)
 {
-    // メンバ変数の初期化
+    //メンバ変数の初期化
 }
 
 void DrawNumberWithOutline(int x, int y, int color, int font, const TCHAR* format, ...)
@@ -30,7 +30,7 @@ void DrawNumberWithOutline(int x, int y, int color, int font, const TCHAR* forma
 
     int black = GetColor(0, 0, 0);
 
-    // 黒フチ（8方向）
+    //黒フチ（8方向）
     DrawStringToHandle(x - 2, y, buffer, black, font);
     DrawStringToHandle(x + 2, y, buffer, black, font);
     DrawStringToHandle(x, y - 2, buffer, black, font);
@@ -40,7 +40,7 @@ void DrawNumberWithOutline(int x, int y, int color, int font, const TCHAR* forma
     DrawStringToHandle(x - 2, y + 2, buffer, black, font);
     DrawStringToHandle(x + 2, y + 2, buffer, black, font);
 
-    // 本体
+    //本体
     DrawStringToHandle(x, y, buffer, color, font);
 }
 
@@ -52,10 +52,10 @@ void ResultScene::SetResult(int correctCount, int scoreValue)
 
 void ResultScene::Initialize()
 {
-    // 前シーンから受け取ったスコアと正答数を保存
+    //前シーンから受け取ったスコアと正答数を保存
 
 
-    // リザルト画面の背景画像・BGM・効果音を読み込み
+    //リザルト画面の背景画像・BGM・効果音を読み込み
     //background = LoadGraph("Resource/images/result.png");
     resultTitle = LoadGraph("Resource/Image/Result.png");
     correctTitle = LoadGraph("Resource/Image/Result1.png");
@@ -81,7 +81,7 @@ void ResultScene::Initialize()
 
 eSceneType ResultScene::Update()
 {
-    // InputManagerのインスタンスを取得
+    //InputManagerのインスタンスを取得
     InputManager* input = InputManager::GetInstance();
 
     resultTimer++;
@@ -124,25 +124,25 @@ eSceneType ResultScene::Update()
             
         }
     }
-    // 「Bボタンでタイトルへ」が表示される段階
+    //「Bボタンでタイトルへ」が表示される段階
     if (resultPhase >= 3 && !isEndSePlayed)
     {
         PlaySoundMem(backSe, DX_PLAYTYPE_BACK);  // 音を鳴らす
         isEndSePlayed = true;                   // 鳴らした記録を残す
     }
-    // Bボタンが押された瞬間を検出
+    //Bボタンが押された瞬間を検出
     if (input->GetButtonDown(PAD_B))
     {
         if (CheckSoundMem(selectbgm) != TRUE)
         {
             PlaySoundMem(selectbgm, DX_PLAYTYPE_BACK, TRUE);
         }
-        // タイトルシーンへ遷移する
+        //タイトルシーンへ遷移する
         return eSceneType::E_TITLE;
     }
 
-    // 何も押されていない場合は
-    // 現在のResultシーンを維持する
+    //何も押されていない場合は
+    //現在のResultシーンを維持する
     return GetNowScene();
 }
 

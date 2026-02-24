@@ -28,37 +28,37 @@
 class InputManager
 {
 private:
-    // シングルトンインスタンス
+    //シングルトンインスタンス
     static InputManager* instance;
 
-    // キーボード入力（現在・前フレーム）
+    //キーボード入力（現在・前フレーム）
     char now_key[D_KEYCODE_MAX] = {};
     char old_key[D_KEYCODE_MAX] = {};
 
-    // コントローラーボタン入力（現在・前フレーム）
+    //コントローラーボタン入力（現在・前フレーム）
     bool now_button[D_BUTTON_MAX] = {};
     bool old_button[D_BUTTON_MAX] = {};
 
-    // トリガー入力（0.0～1.0）
+    //トリガー入力（0.0～1.0）
     float trigger[2] = {};
 
-    // スティック入力（-1.0～1.0）
+    //スティック入力（-1.0～1.0）
     Vector2D stick[2] = {};
 
-    // コンストラクタはprivate
+    //コンストラクタはprivate
     InputManager() = default;
 
-    // コピー禁止
+    //コピー禁止
     InputManager(const InputManager&) = delete;
     InputManager& operator=(const InputManager&) = delete;
 
 public:
     ~InputManager() = default;
 
-    // インスタンス取得
+    //インスタンス取得
     static InputManager* GetInstance();
 
-    // インスタンス削除
+    //インスタンス削除
     static void DeleteInstance();
 
     // 入力更新（毎フレーム呼ぶ）

@@ -10,20 +10,20 @@
 class ResourceManager
 {
 private:
-	// 自クラスのポインタ（実体をアドレスの先で保有）
+	//自クラスのポインタ（実体をアドレスの先で保有）
 	static ResourceManager* instance;
 
 	std::map<std::string, std::vector<int>> images_container;	// 画像コンテナ
 	std::map<std::string, int> sounds_container;				// 音源コンテナ
 
 private:
-	// クラスの実体をメンバ関数内でしか生成できないようにする
+	//クラスの実体をメンバ関数内でしか生成できないようにする
 	ResourceManager() = default;
 
-	// コピーガード
+	//コピーガード
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator = (const ResourceManager&) = delete;
-	// ~コピーガード
+	//~コピーガード
 
 public:
 	~ResourceManager() = default;
@@ -105,6 +105,6 @@ private:
 	/// <param name="size_y">縦のサイズ(px)</param>
 	void CreateImagesResource(std::string file_name, int all_num, int num_x, int num_y, int size_x, int size_y);
 
-	// 音源読み込み処理
+	//音源読み込み処理
 	void CreateSoundsResource(std::string file_path);
 };

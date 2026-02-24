@@ -6,189 +6,204 @@
 #include "../Scenes/Result/ResultScene.h"
 #include "../Scenes/HelpScene/HelpScene.h"
 
+//----------------------------------------
+// コンストラクタ：現在シーンを未設定に
+//----------------------------------------
 SceneManager::SceneManager() : current_scene(nullptr)
 {
-
 }
 
 SceneManager::~SceneManager()
 {
-
 }
-//シーンマネージャー機能：初期化処理
+
+//----------------------------------------
+// シーンマネージャー：初期化処理
+// ・ウィンドウ設定
+// ・DXライブラリ初期化
+// ・最初のシーンをタイトルに設定
+//----------------------------------------
 void SceneManager::Initialize()
 {
-	//ウィンドウのタイトルを設定
-	SetMainWindowText("quiz");
+    // ウィンドウタイトル設定
+    SetMainWindowText("quiz");
 
-	//ウィンドウモードで起動
-	if (ChangeWindowMode(TRUE) != DX_CHANGESCREEN_OK)
-	{
-		throw("ウィンドウモードで起動できませんでした\n");
-	}
+    // ウィンドウモードで起動
+    if (ChangeWindowMode(TRUE) != DX_CHANGESCREEN_OK)
+    {
+        throw("ウィンドウモードで起動できませんでした\n");
+    }
 
-	// 解像度指定（例：1280×720）
-	if (SetGraphMode(1280, 720, 32) == -1)
-	{
-		throw("解像度の設定に失敗しました\n");
-	}
+    // 解像度設定
+    if (SetGraphMode(1280, 720, 32) == -1)
+    {
+        throw("解像度の設定に失敗しました\n");
+    }
 
+    // DXライブラリ初期化
+    if (DxLib_Init() == -1)
+    {
+        throw("Dxライブラリが初期化できませんでした\n");
+    }
 
-	//DXライブラリの初期化
-	if (DxLib_Init() == -1)
-	{
-		throw("Dxライブラリが初期化できませんでした\n");
-	}
+    // 描画先を裏画面に設定
+    if (SetDrawScreen(DX_SCREEN_BACK) == -1)
+    {
+        throw("指定先の指定ができませんでした\n");
+    }
 
-	//描画先指定処理
-	if (SetDrawScreen(DX_SCREEN_BACK) == -1)
-	{
-		throw("指定先の指定ができませんでした\n");
-	}
-
-	//タイトルシーンから始める
-	ChangeScene(eSceneType::E_TITLE);
+    // 最初はタイトルシーンから開始
+    ChangeScene(eSceneType::E_TITLE);
 }
 
-//シーンマネージャー機能：更新処理
+//----------------------------------------
+// シーンマネージャー：更新処理
+// ・フレーム管理
+// ・入力更新
+// ・シーン更新
+// ・シーン遷移
+//----------------------------------------
 void SceneManager::Update()
 {
-	//フレーム開始時間（マイクロ秒）を取得
-	LONGLONG start_time = GetNowHiPerformanceCount();
+    // フレーム開始時間（マイクロ秒）
+    LONGLONG start_time = GetNowHiPerformanceCount();
 
-	//メインループ
-	while (ProcessMessage() != -1)
-	{
-		//現在時間を取得
-		LONGLONG now_time = GetNowHiPerformanceCount();
+    // メインループ
+    while (ProcessMessage() != -1)
+    {
+        // 現在時間
+        LONGLONG now_time = GetNowHiPerformanceCount();
 
-		//1フレーム当たりの時間に到達したら、更新及び描画処理を行う
-		if ((now_time - start_time) >= DELTA_SECOND)
-		{
-			//フレーム開始時間を更新する
-			start_time = now_time;
+        // 1フレーム分の時間が経過したら更新処理
+        if ((now_time - start_time) >= DELTA_SECOND)
+        {
+            start_time = now_time;
 
-			//入力機能：更新処理
-			InputManager::GetInstance()->Update();
+            // 入力更新
+            InputManager::GetInstance()->Update();
 
-			//更新処理（戻り値は次のシーン情報）
-			eSceneType next = current_scene->Update();
+            // シーン更新（戻り値は次のシーン）
+            eSceneType next = current_scene->Update();
 
-			//描画処理
-			Draw();
+            // 描画処理
+            Draw();
 
-			//エンドが選択されていたら、ゲームを終了する
-			if (next == eSceneType::E_END)
-			{
-				break;
-			}
+            // END が返されたらゲーム終了
+            if (next == eSceneType::E_END)
+            {
+                break;
+            }
 
-			//現在のシーンと次のシーンが違っていたら、切り替え処理を行う
+            // シーンが変わる場合は切り替え
+            if (next != current_scene->GetNowScene())
+            {
+                ChangeScene(next);
+            }
+        }
 
-			if (next != current_scene->GetNowScene())
-			{
-				ChangeScene(next);
-			}
-		}
-
-		//ESCAPEキーが押されたら、ゲームを終了する
-		if (CheckHitKey(KEY_INPUT_ESCAPE) ||
-			InputManager::GetInstance()->GetButtonUp(XINPUT_BUTTON_BACK))
-		{
-			break;
-		}
-
-	}
+        // ESCキー or BACKボタンで終了
+        if (CheckHitKey(KEY_INPUT_ESCAPE) ||
+            InputManager::GetInstance()->GetButtonUp(XINPUT_BUTTON_BACK))
+        {
+            break;
+        }
+    }
 }
 
-//シーンマネージャー機能：終了時処理
+//----------------------------------------
+// シーンマネージャー：終了処理
+// ・現在シーンの削除
+// ・DXライブラリ終了
+//----------------------------------------
 void SceneManager::Finalize()
 {
-	//シーン情報の削除
-	if (current_scene != nullptr)
-	{
-		current_scene->Finalize();
-		delete current_scene;
-		current_scene = nullptr;
-	}
+    if (current_scene != nullptr)
+    {
+        current_scene->Finalize();
+        delete current_scene;
+        current_scene = nullptr;
+    }
 
-	//DXライブラリの使用を終了する
-	DxLib_End();
+    // DXライブラリ終了
+    DxLib_End();
 }
 
-//シーンマネージャー機能：描画処理
+//----------------------------------------
+// 描画処理
+// ・画面クリア
+// ・シーン描画
+// ・裏画面反映
+//----------------------------------------
 void SceneManager::Draw() const
 {
-	//画面の初期化
-	ClearDrawScreen();
-
-	//シーンの描画
-	current_scene->Draw();
-
-	//裏画面の内容を表画面に反映
-	ScreenFlip();
+    ClearDrawScreen();      // 画面初期化
+    current_scene->Draw();  // シーン描画
+    ScreenFlip();           // 表画面へ反映
 }
 
-//シーン切り替え処理
+//----------------------------------------
+// シーン切り替え処理
+// ・新シーン生成
+// ・必要ならデータ受け渡し
+// ・旧シーン破棄
+// ・新シーン初期化
+//----------------------------------------
 void SceneManager::ChangeScene(eSceneType scene_type)
 {
-	//シーンを生成する（SceneBaseが継承されているか？）
-	SceneBase* new_scene = CreateScene(scene_type);
+    // 新しいシーンを生成
+    SceneBase* new_scene = CreateScene(scene_type);
 
-	//エラーチェック
-	if (new_scene == nullptr)
-	{
-		throw("シーンが生成できませんでした。\n");
-	}
+    if (new_scene == nullptr)
+    {
+        throw("シーンが生成できませんでした。\n");
+    }
 
-	//前のシーンがGameMainSceneで次がResultSceneなら値を渡す
-	if (scene_type == eSceneType::E_RESULT)
-	{
-		GameMainScene* mainScene = dynamic_cast<GameMainScene*>(current_scene);
-		ResultScene* resultScene = dynamic_cast<ResultScene*>(new_scene);
+    // GameMainScene → ResultScene の場合、結果を渡す
+    if (scene_type == eSceneType::E_RESULT)
+    {
+        GameMainScene* mainScene = dynamic_cast<GameMainScene*>(current_scene);
+        ResultScene* resultScene = dynamic_cast<ResultScene*>(new_scene);
 
-		if (mainScene && resultScene)
-		{
-			resultScene->SetResult(mainScene->GetCorrectCount(), mainScene->GetScore());
-		}
-	}
+        if (mainScene && resultScene)
+        {
+            resultScene->SetResult(mainScene->GetCorrectCount(), mainScene->GetScore());
+        }
+    }
 
-	//前回シーンの終了時処理を行う
-	if (current_scene != nullptr)
-	{
-		current_scene->Finalize();
-		delete current_scene;
-	}
+    // シーンの終了処理
+    if (current_scene != nullptr)
+    {
+        current_scene->Finalize();
+        delete current_scene;
+    }
 
-	//新しく生成したシーンの初期化を行う
-	new_scene->Initialize();
+    // シーン初期化
+    new_scene->Initialize();
 
-	//現在シーンの更新
-	current_scene = new_scene;
+    // 現在シーン更新
+    current_scene = new_scene;
 }
 
-//シーン生成処理
+//----------------------------------------
+// シーン生成処理
+//----------------------------------------
 SceneBase* SceneManager::CreateScene(eSceneType scene_type)
 {
-	//引数（シーンタイプ）によって、生成するシーンを決定する
-	switch (scene_type)
-	{
-	case eSceneType::E_TITLE:
-		return new TitleScene;
-		break;
+    switch (scene_type)
+    {
+    case eSceneType::E_TITLE:
+        return new TitleScene;
 
-	case eSceneType::E_MAIN:
-		return new GameMainScene;
-		break;
+    case eSceneType::E_MAIN:
+        return new GameMainScene;
 
-	case eSceneType::E_RESULT:
-		 return new ResultScene;
-		 break;
+    case eSceneType::E_RESULT:
+        return new ResultScene;
 
-	case eSceneType::E_HELP:
-		return new HelpScene;
+    case eSceneType::E_HELP:
+        return new HelpScene;
 
-	default:
-		return nullptr;
-	}
+    default:
+        return nullptr;
+    }
 }
