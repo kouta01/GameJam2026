@@ -14,6 +14,7 @@ private:
     int scoreTitle;    //スコア名
     int bgm;           // リザルトBGM
     int se;            // 決定音などの効果音
+    int selectbgm;
     int resultTimer;   //経過フレーム
     int resultPhase;   //表示段階
     int newSe;          //正解SE
