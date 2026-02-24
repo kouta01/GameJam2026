@@ -434,7 +434,7 @@ void GameMainScene::Draw() const
 			DrawString(500, 300 + 2, text, black);
 
 			// 本体
-			DrawString(500, 300, text, red);
+			DrawString(550, 350, text, red);
 		}
 }
 

@@ -194,7 +194,7 @@ void ResultScene::Draw() const
         {
             if ((GetNowCount() / 500) % 2 == 0)
             {
-                DrawNumberWithOutline(760, 500,
+                DrawNumberWithOutline(760, 510,
                     GetColor(255, 215, 0),
                     resultFont,
                     TEXT("NEW RECORD!"));
