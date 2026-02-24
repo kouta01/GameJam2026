@@ -52,7 +52,7 @@ void HelpScene::Draw() const
     /*DrawString(400, 390, "正しいと思うボタンを押してください。", 0xffffff);*/
     DrawStringToHandle(400, 390, "正しいと思うボタンを押してください。", yellow, HelpFont2);
     /*DrawString(400, 440, "全10問の正解数で結果が決まります。", 0xffffff);*/
-    DrawStringToHandle(400, 440, "全10問の正解数で結果が決まります。", yellow, HelpFont2);
+    DrawStringToHandle(400, 440, "全10問の正解数と残り時間で結果が決まります。", yellow, HelpFont2);
     /*DrawString(400, 670, "AボタンでTITLE", 0xffffff);*/
     DrawStringToHandle(400, 670, "AボタンでTITLE", yellow, HelpFont2);
 }
