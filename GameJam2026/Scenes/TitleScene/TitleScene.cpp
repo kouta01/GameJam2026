@@ -129,8 +129,6 @@ void TitleScene::Draw()const
 	DrawGraph(120, 200, menu_image, TRUE);
 
 	//操作ログ
-	/*SetFontSize(30);*/
-	/*DrawString(120, 400, "Aボタンでゲーム開始、\nBボタンでヘルプ画面、\nStartボタンで終了",0x000000);*/
 	DrawStringToHandle(350, 400, "Aボタンでゲーム開始 \nBボタンでヘルプ画面 \nStartボタンで終了", yellow, TitleFont1);
 
 	//素材ログ
