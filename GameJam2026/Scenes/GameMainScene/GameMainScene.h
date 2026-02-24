@@ -15,6 +15,9 @@ private:
 	int AnswerImage;                 //正解画像
 	int IncorrectImage;              //不正解画像
 	int gameBGM;                     //BGM
+	int seFinish;                    //終了SE
+	int warningBGM;                  //警告BGM
+	bool isWarningPlaying;           //警告BGM
 	int seCorrect;                   //正解SE
 	int seIncorrect;                 //不正解SE
 	int seNextQuestion;              //次の問題が出るときのSE
@@ -34,6 +37,7 @@ private:
 	std::vector<int> choiceAImages;  //選択肢画像(A)
 	std::vector<int> choiceBImages;  //選択肢画像(B)
 	std::vector<int> correctAnswers; //正解(0=A, 1=B)
+
 	
 private:
 	//選択肢Aの表示位置

@@ -23,6 +23,9 @@ GameMainScene::GameMainScene()
 	,AnswerImage(0)
 	,IncorrectImage(0)
 	,resultTimer(0)
+	, warningBGM(-1)
+	, isWarningPlaying(false)
+	, seFinish(-1)
 {
 
 }
@@ -46,6 +49,12 @@ void GameMainScene::Initialize()
 	//BGM
 	gameBGM = LoadSoundMem("Resource/Sounds/Thinkingtime.mp3");
 	PlaySoundMem(gameBGM, DX_PLAYTYPE_LOOP);
+
+	// 警告BGM
+	warningBGM = LoadSoundMem("Resource/Sounds/time2.mp3");
+
+	// 終了SE
+	seFinish = LoadSoundMem("Resource/Sounds/fin.mp3");
 
 	// 正解SE
 	seCorrect = LoadSoundMem("Resource/Sounds/seikai.mp3");
@@ -121,192 +130,206 @@ void GameMainScene::Initialize()
 	timerFont = CreateFontToHandle("BIZ UDPゴシック",96,7);
 }
 
-//更新処理
 eSceneType GameMainScene::Update()
 {
+	// 入力取得
 	InputManager* input = InputManager::GetInstance();
 
-	// 終了演出中
+	// ========================================
+	// 終了演出中の処理
+	// ========================================
 	if (isEnding)
 	{
-		endingTimer++;
+		endingTimer++;   // 演出用タイマー加算
 
-		if (endingTimer > 120) // 2秒表示（60fps想定）
+		// 2秒経過したらリザルトへ遷移
+		if (endingTimer > 120) // 60fps想定
 		{
 			return eSceneType::E_RESULT;
 		}
 
+		// 演出中は他の処理をしない
 		return GetNowScene();
 	}
 
-	timer--;
+	// ========================================
+	// タイマー更新
+	// ========================================
+	timer--;  // 1フレームごとに減少
+
+	int seconds = timer / 60;  // 秒に変換（60fps想定）
+
+	// ========================================
+	// 残り10秒で警告BGMに切り替え
+	// ========================================
+	if (seconds <= 10 && seconds > 0 && !isWarningPlaying)
+	{
+		StopSoundMem(gameBGM);                      // 通常BGM停止
+		PlaySoundMem(warningBGM, DX_PLAYTYPE_LOOP); // 警告BGMループ再生
+		isWarningPlaying = true;                    // 再生フラグON
+	}
+
+	// ========================================
+	// タイムアップ処理
+	// ========================================
 	if (timer <= 0)
 	{
-		timer = 0;		//マイナスポイント防止
-		//タイムボーナス結果
-		finalRemainingSeconds = timer / 60;
-		finalScore = correctCount + finalRemainingSeconds * 0.1f;
+		timer = 0;  // マイナス防止
 
-		// ハイスコア更新
+		// 最終スコア計算
+		finalRemainingSeconds = 0;
+		finalScore = correctCount;
+
+		// ハイスコア更新判定
 		if (finalScore > highScore)
 		{
-			highScore = finalScore;//ハイスコア更新
-			isNewRecord = true;		//レコード更新
+			highScore = finalScore;
+			isNewRecord = true;
 		}
 		else
 		{
-			isNewRecord = false;//レコード更新無し
+			isNewRecord = false;
 		}
 
-		//時間切れなら演出からリザルトへ
+		// 終了演出開始
 		if (!isEnding)
 		{
+			StopSoundMem(warningBGM);
+			StopSoundMem(gameBGM);
+			PlaySoundMem(seFinish, DX_PLAYTYPE_BACK);
+
 			isEnding = true;
-			endingType = 1;//TIMEOUT
+			endingType = 1; // TIMEOUT
 			endingTimer = 0;
 		}
+
 		return GetNowScene();
 	}
 
-	//結果表示中ならタイマーだけ進める
+	// ========================================
+	// 正誤結果表示中の処理
+	// ========================================
 	if (showResult)
 	{
-		resultTimer++;
+		resultTimer++;  // 表示時間カウント
 
-		//60フレーム(0.3秒)表示したら次へ
+		// 0.3秒表示後に次の問題へ
 		if (resultTimer > 18)
 		{
 			showResult = false;
 			resultTimer = 0;
 
-			currentIndex++;
+			currentIndex++;  // 次の問題へ
 
-			//問題が出るときのSE
-			//PlaySoundMem(seNextQuestion, DX_PLAYTYPE_BACK);
-
-
-			//全問終了
+			// ========================================
+			// 全問終了チェック
+			// ========================================
 			if (currentIndex >= questionImages.size())
 			{
-				//タイムボーナス結果
+				// 最終スコア計算（残り時間ボーナス含む）
 				finalRemainingSeconds = timer / 60;
 				finalScore = correctCount + finalRemainingSeconds * 0.1f;
 
-				// ハイスコア更新
+				// ハイスコア更新判定
 				if (finalScore > highScore)
 				{
-					highScore = finalScore;//ハイスコア更新
-					isNewRecord = true;		//レコード更新
+					highScore = finalScore;
+					isNewRecord = true;
 				}
 				else
 				{
-					isNewRecord = false;//レコード更新無し
+					isNewRecord = false;
 				}
 
-				//SE停止
+				// 効果音停止
+				StopSoundMem(warningBGM);
+				StopSoundMem(gameBGM);
 				StopSoundMem(seCorrect);
 				StopSoundMem(seIncorrect);
 
-				if (!isEnding)//FINISHの文字を出す
+				// 終了演出開始
+				if (!isEnding)
 				{
+					PlaySoundMem(seFinish, DX_PLAYTYPE_BACK);
 					isEnding = true;
-					endingType = 2;//FINISH
+					endingType = 2; // FINISH
 					endingTimer = 0;
 				}
-				return GetNowScene();
 			}
-			
 		}
+
 		return GetNowScene();
 	}
 
+	// ========================================
+	// 入力処理
+	// ========================================
 
-
-// ESCキー
-	if (CheckHitKey(KEY_INPUT_ESCAPE))
-	{
-		
-	}
-
-	// Startボタン
-	if (input->GetButtonDown(PAD_START))
-	{
-		
-	}
-
-	// Xボタン
-	if (input->GetButtonDown(PAD_X))
-	{
-		// 必要なら機能を追加
-	}
-
-	// Yボタン
-	if (input->GetButtonDown(PAD_Y))
-	{
-		// 必要なら機能を追加
-	}
-
-
-	//Aボタンなら選択肢Aを選ぶ
+	// ----------------------------
+	// Aボタン（選択肢A）
+	// ----------------------------
 	if (input->GetButtonDown(PAD_A))
 	{
-		selectIndex = 0;
+		selectIndex = 0;  // Aを選択
 
-		//正解なら正解数をカウントする
+		// 正解判定
 		if (correctAnswers[currentIndex] == 0)
 		{
-			correctCount++;
-			score += 2;
+			correctCount++;          // 正解数加算
+			score += 2;              // スコア加算
 			resultImageToShow = AnswerImage;
-			StopSoundMem(seCorrect);                     //SE停止
-			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //正解SE
 
+			StopSoundMem(seCorrect);
+			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);
 		}
 		else
 		{
 			resultImageToShow = IncorrectImage;
-			StopSoundMem(seCorrect);                     //SE停止
-			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //不正解SE
 
+			StopSoundMem(seIncorrect);
+			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK);
 		}
 
-		//Aの位置に結果画像を表示
+		// 結果画像表示位置（Aの位置）
 		resultX = choiceAX;
 		resultY = choiceAY;
 
-		showResult = true;
+		showResult = true;  // 結果表示開始
 	}
 
-	//Bボタンなら選択肢Bを選ぶ
+	// ----------------------------
+	// Bボタン（選択肢B）
+	// ----------------------------
 	if (input->GetButtonDown(PAD_B))
 	{
-		selectIndex = 1;
+		selectIndex = 1;  // Bを選択
 
-		//正解かどうか判定
+		// 正解判定
 		if (correctAnswers[currentIndex] == 1)
 		{
 			correctCount++;
 			score += 2;
 			resultImageToShow = AnswerImage;
-			StopSoundMem(seCorrect);                     //重なり防止
-			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);   //正解SE
 
+			StopSoundMem(seCorrect);
+			PlaySoundMem(seCorrect, DX_PLAYTYPE_BACK);
 		}
 		else
 		{
 			resultImageToShow = IncorrectImage;
-			StopSoundMem(seCorrect);                     //重なり防止
-			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK); //不正解SE
 
+			StopSoundMem(seIncorrect);
+			PlaySoundMem(seIncorrect, DX_PLAYTYPE_BACK);
 		}
 
+		// 結果画像表示位置（Bの位置）
 		resultX = choiceBX;
 		resultY = choiceBY;
 
 		showResult = true;
-
 	}
 
+	// シーン維持
 	return GetNowScene();
 }
 
@@ -333,7 +356,7 @@ void GameMainScene::Draw() const
 	TCHAR timeText[16];
 	sprintf_s(timeText, TEXT("%02d"), seconds);
 
-	// 🔥 残り10秒で演出
+	//残り10秒で演出
 	if (seconds <= 10)
 	{
 		// 拡大縮小アニメ
@@ -442,5 +465,10 @@ bool GameMainScene::IsNewRecord()
 //終了時処理
 void GameMainScene::Finalize()
 {
+	
 	DeleteSoundMem(gameBGM);
+	DeleteSoundMem(warningBGM);
+	DeleteSoundMem(seFinish);
+	DeleteSoundMem(seCorrect);
+	DeleteSoundMem(seIncorrect);
 }
